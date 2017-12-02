@@ -24,29 +24,31 @@ function createDefaultShader(gl) {
     attribute vec3 position, normal, shift;
 
     uniform mat4 projection, view;
-    varying vec3 v_position, v_normal;
+    varying vec3 v_position, v_normal, v_shift;
 
     void main() {
       vec3 displaced = position + shift.z*normal;
       gl_Position = projection*view*vec4(displaced, 1.0);
       v_position = gl_Position.xyz;
       v_normal = normal;
+      v_shift = shift;
     }
   `;
 
   let fs = `
     precision mediump float;
-    varying vec3 v_position, v_normal;
+    varying vec3 v_position, v_normal, v_shift;
 
     uniform vec3 lightPosition;
-    uniform vec4 diffuseColor, ambientColor, specularColor;
+    uniform vec4 diffuseColor, ambientColor, specularColor, injuryColor;
 
     void main() {
       vec3 lightDiff = normalize(lightPosition - v_position);
       float lightDot = clamp(dot(lightDiff, v_normal), 0.0, 1.0);
       float ambientWeight = 1.0 - lightDot;
       float weightSum = 1.0 + ambientWeight + lightDot;
-      gl_FragColor = (diffuseColor + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
+      vec4 litColor = (diffuseColor + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
+      gl_FragColor = (1.0 - v_shift.x)*litColor + v_shift.x*injuryColor;
     }
   `;
   
@@ -89,6 +91,7 @@ class Default extends Renderer {
     this.diffuseColor = vec4.fromValues(1,0.8,0.6,1);
     this.specularColor = vec4.fromValues(1,1,1,1);
     this.ambientColor = vec4.fromValues(0.7,0.7,0.6,1);
+    this.injuryColor = vec4.fromValues(0.4, 0.1, 0.15, 1);
     this.geometry = [];
   }
 
@@ -108,32 +111,49 @@ class Default extends Renderer {
     uniforms.ambientColor = this.ambientColor;
     uniforms.specularColor = this.specularColor;
     uniforms.diffuseColor = this.diffuseColor;
+    uniforms.injuryColor = this.injuryColor;
     uniforms.view = view;
     geometry.draw();
   }
 }
 
 class Face extends Default {
+  constructor(canvas) {
+    super(canvas);
+  }
+
   installFace(faceMesh, faceWeights) {
     this.geometry = [];
 
     this.faceMesh = faceMesh;
     this.faceWeights = faceWeights;
-    this.faceGeometry = Setup.createGeometryFromObj(this.gl, faceMesh);
+    this.shifts = _.times(3*faceMesh.cells.length, i => vec3.create());
+    this.faceGeometry = Setup.createGeometryFromObj(this.gl, faceMesh)
+      .attr('shifts', this.shifts);
     this.geometry.push(this.faceGeometry);
   }
 
-  applyFaceParameters(params) {
-    let shifts = _.times(3*this.faceMesh.cells.length, i => vec3.create());
-    let { normalShifts } = params;
-    for (let key in normalShifts) {
-      let value = normalShifts[key];
+  _applyWeights(paramsSet, shiftIndex) {
+    if (paramsSet == null) return;
+    let { shifts } = this;
+
+    for (let key in paramsSet) {
+      let value = paramsSet[key];
       let weights = this.faceWeights[key];
       if (weights == null) continue;
       for(let i = 0; i < weights.length; i++) {
-        shifts[i][2] += value*weights[i];
+        shifts[i][shiftIndex] += value*weights[i];
       }
     }
+  }
+
+  applyFaceParameters(params) {
+    let { shifts } = this;
+    let { normalShifts, injuryValues } = params;
+
+    for (let shift of shifts) vec3.set(shift, 0, 0, 0);
+    this._applyWeights(normalShifts, 2);
+    this._applyWeights(injuryValues, 0);
 
     this.faceGeometry.attr('shift', shifts);
   }
