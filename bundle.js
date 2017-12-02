@@ -6,3 +6,6 @@ Object.assign(window, {
   _: require('lodash')
 });
 
+require('./src/cards');
+
+
