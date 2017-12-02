@@ -39,12 +39,13 @@ function createDefaultShader(gl) {
     precision mediump float;
     varying vec3 v_position, v_normal, v_shift;
 
-    uniform vec3 lightPosition;
+    uniform vec3 lightPosition0, lightPosition1;
     uniform vec4 diffuseColor, ambientColor, specularColor, injuryColor;
 
     void main() {
-      vec3 lightDiff = normalize(lightPosition - v_position);
-      float lightDot = clamp(dot(lightDiff, v_normal), 0.0, 1.0);
+      vec3 lightDiff0 = normalize(lightPosition0 - v_position);
+      vec3 lightDiff1 = normalize(lightPosition1 - v_position);
+      float lightDot = clamp(max(dot(lightDiff0, v_normal), dot(lightDiff1, v_normal)), 0.0, 1.0);
       float ambientWeight = 1.0 - lightDot;
       float weightSum = 1.0 + ambientWeight + lightDot;
       vec4 litColor = (diffuseColor + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
@@ -87,7 +88,8 @@ class Default extends Renderer {
   constructor(canvas) {
     super(canvas);
     this.shader = createDefaultShader(this.gl);
-    this.lightPosition = vec3.fromValues(10, 10, 10);
+    this.lightPosition0 = vec3.fromValues(10, 10, 10);
+    this.lightPosition1 = vec3.fromValues(-10, -2, 0);
     this.diffuseColor = vec4.fromValues(1,0.8,0.6,1);
     this.specularColor = vec4.fromValues(1,1,1,1);
     this.ambientColor = vec4.fromValues(0.7,0.7,0.6,1);
@@ -107,7 +109,8 @@ class Default extends Renderer {
     let { uniforms } = shader;
     geometry.bind(shader);
     uniforms.projection = projection;
-    uniforms.lightPosition = this.lightPosition;
+    uniforms.lightPosition0 = this.lightPosition0;
+    uniforms.lightPosition1 = this.lightPosition1;
     uniforms.ambientColor = this.ambientColor;
     uniforms.specularColor = this.specularColor;
     uniforms.diffuseColor = this.diffuseColor;
