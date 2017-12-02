@@ -1,7 +1,7 @@
 
 let TurntableCamera = require('turntable-camera');
 let createShader = require('gl-shader');
-let { mat4 } = require('gl-matrix');
+let { vec3, vec4, mat4 } = require('gl-matrix');
 
 function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
@@ -35,8 +35,15 @@ function createDefaultShader(gl) {
     precision mediump float;
     varying vec3 v_position, v_normal;
 
+    uniform vec3 lightPosition;
+    uniform vec4 diffuseColor, ambientColor, specularColor;
+
     void main() {
-      gl_FragColor = vec4(1.,0.,0.,1.);
+      vec3 lightDiff = normalize(lightPosition - v_position);
+      float lightDot = clamp(dot(lightDiff, v_normal), 0.0, 1.0);
+      float ambientWeight = 1.0 - lightDot;
+      float weightSum = 1.0 + ambientWeight + lightDot;
+      gl_FragColor = (diffuseColor + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
     }
   `;
   
@@ -57,10 +64,11 @@ class Renderer {
     this.projection = mat4.create();
     this.view = mat4.create();
     this.gl.enable(this.gl.DEPTH_TEST);
+    this.clearColor = vec4.fromValues(0.05, 0.1, 0.2, 1.0);
   }
 
   preFrame() {
-    preFrame(this.gl, this.canvas);
+    preFrame(this.gl, this.canvas, this.clearColor);
     canvasProjection(this.projection, this.canvas);
     this.camera.view(this.view);
   }
@@ -74,6 +82,10 @@ class Default extends Renderer {
   constructor(canvas) {
     super(canvas);
     this.shader = createDefaultShader(this.gl);
+    this.lightPosition = vec3.fromValues(10, 10, 10);
+    this.diffuseColor = vec4.fromValues(1,0.8,0.6,1);
+    this.specularColor = vec4.fromValues(1,1,1,1);
+    this.ambientColor = vec4.fromValues(0.7,0.7,0.6,1);
     this.geometry = [];
   }
 
@@ -86,9 +98,14 @@ class Default extends Renderer {
 
   draw(geometry) {
     let { shader, projection, view } = this;
+    let { uniforms } = shader;
     geometry.bind(shader);
-    shader.uniforms.projection = projection;
-    shader.uniforms.view = view;
+    uniforms.projection = projection;
+    uniforms.lightPosition = this.lightPosition;
+    uniforms.ambientColor = this.ambientColor;
+    uniforms.specularColor = this.specularColor;
+    uniforms.diffuseColor = this.diffuseColor;
+    uniforms.view = view;
     geometry.draw();
   }
 }

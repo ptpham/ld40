@@ -1,4 +1,6 @@
 
+let _ = require('lodash');
+
 function createTurntableListeners(renderer) {
   let { camera } = renderer;
   let result = {};
@@ -8,6 +10,7 @@ function createTurntableListeners(renderer) {
   result.mouseup = e => isDown = false;
   result.mousemove = e => {
     if (!isDown) return;
+    camera.downwards = _.clamp(camera.downwards + e.movementY/100, -Math.PI/8, Math.PI/8);
     camera.rotation += e.movementX/100;
     renderer.requestFrame();
   }
