@@ -9,7 +9,6 @@
     "gl-shader": "^4.2.1",
     "lodash": "^4.17.4",
     "parse-wavefront-obj": "^1.0.3",
-    "require-textify": "^1.0.0",
     "stringify": "^5.2.0",
     "turntable-camera": "^1.0.0"
   }
