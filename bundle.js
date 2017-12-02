@@ -7,6 +7,7 @@ Object.assign(window, {
 });
 
 Object.assign(window, {
+  Setup: require('./src/setup'),
   Render: require('./src/render'),
   Control: require('./src/control'),
   Mesh: {
@@ -21,9 +22,7 @@ var renderer = new Render.Default(canvas);
 var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
-var cube = createGeometry(renderer.gl)
-  .attr('position', Mesh.cube.positions)
-  .faces(Mesh.cube.cells);
+var cube = Setup.createGeometryFromObj(renderer.gl, Mesh.cube);
 renderer.geometry.push(cube);
 renderer.requestFrame();
 

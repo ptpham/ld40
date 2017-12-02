@@ -15,21 +15,25 @@ function preFrame(gl, canvas, color = [1,1,1,1]) {
 
 function canvasProjection(projection, canvas) {
   let { width, height } = canvas;
-  return mat4.perspective(projection, width/height, Math.PI/2, 1, 100);
+  return mat4.perspective(projection, Math.PI/4, width/height, 1, 100);
 }
 
 function createDefaultShader(gl) {
   let vs = `
-    attribute vec3 position;
+    attribute vec3 position, normal;
     uniform mat4 projection, view;
+    varying vec3 v_position, v_normal;
 
     void main() {
       gl_Position = projection*view*vec4(position, 1.0);
+      v_position = gl_Position.xyz;
+      v_normal = normal;
     }
   `;
 
   let fs = `
     precision mediump float;
+    varying vec3 v_position, v_normal;
 
     void main() {
       gl_FragColor = vec4(1.,0.,0.,1.);
