@@ -30,29 +30,29 @@ renderer.requestFrame();
 
 Cards.render({
   key: 'card0',
-  name: 'Dr. Rhino',
-  type: 'Surgeon',
-  flavor: 'Need a nose? We got some.'
+  type: 'surgeon',
+  money: -500,
+  flavor: 'Need a nose? We got some. Come see Dr. Rhino.'
 });
 
 Cards.render({
   key: 'card1',
-  name: 'Dr. Rhino',
-  type: 'Surgeon',
-  flavor: 'Need a nose? We got some.'
+  type: 'surgeon',
+  money: -1000,
+  flavor: 'Need a nose? We got some. Check the back alley.'
 });
 
 Cards.render({
   key: 'card2',
-  name: 'Looking for model for teen magazine.',
-  type: 'Job',
+  type: 'job',
+  money: 500,
   flavor: 'We\'re looking for an individual with a youthful look and a round nose. Pays $500'
 });
 
 Cards.render({
   key: 'card3',
-  name: 'Day at the beach',
-  type: 'Event',
+  type: 'event',
+  money: 0,
   flavor: 'Take a break at the beach.'
 });
 

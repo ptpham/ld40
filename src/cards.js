@@ -7,9 +7,12 @@ function render(card) {
   var cardNode = cardTemplate.content.cloneNode(true);
   var s = cardNode.querySelector.bind(cardNode);
   s('.card').setAttribute('data-key', card.key);
-  s('.name').innerText = card.name;
+  s('.card').setAttribute('data-sign', Math.sign(card.money));
+  s('.card').classList.add(card.type);
+
   s('.type').innerText = card.type;
-  s('.flavor').innerText = card.flavor;
+  s('.flavor').innerHTML = card.flavor;
+  s('.money').innerText = card.money;
 
   cardContainer.appendChild(cardNode);
 }
@@ -44,6 +47,6 @@ module.exports = {
   render,
   toggle,
   reset,
-  select: _.throttle(select, 1000),
+  select: _.throttle(select, 888),
 };
 

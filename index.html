@@ -10,6 +10,7 @@ html, body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-family: sans-serif;
 }
 
 canvas { height: 100%; width: 100%; }
@@ -22,11 +23,15 @@ canvas { height: 100%; width: 100%; }
   <template id="card-template">
     <div class="card">
       <div class="front">
-        <div class="name"></div>
         <div class="type"></div>
         <div class="flavor"></div>
+        <div class="money"></div>
       </div>
       <div class="back">
+        <p></p>
+        <div class="subtext">
+          Click To Continue
+        </div>
       </div>
     </div>
   </template>
