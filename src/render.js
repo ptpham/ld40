@@ -15,7 +15,7 @@ function preFrame(gl, canvas, color = [1,1,1,1]) {
 
 function canvasProjection(projection, canvas) {
   let { width, height } = canvas;
-  return mat4.perspective(projection, width/height, Math.PI/4, 1, 100);
+  return mat4.perspective(projection, width/height, Math.PI/2, 1, 100);
 }
 
 function createDefaultShader(gl) {
