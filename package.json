@@ -8,6 +8,7 @@
     "gl-matrix": "^2.4.0",
     "gl-shader": "^4.2.1",
     "lodash": "^4.17.4",
+    "parse-stl": "^1.0.2",
     "turntable-camera": "^1.0.0"
   }
 }
