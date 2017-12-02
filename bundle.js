@@ -10,6 +10,7 @@ Object.assign(window, {
   Setup: require('./src/setup'),
   Render: require('./src/render'),
   Control: require('./src/control'),
+  Weights: require('./mesh/faceWeights.json'),
   Mesh: {
     cube: parseOBJ(require('./mesh/cube.obj')),
     face: parseOBJ(require('./mesh/face.obj')),
