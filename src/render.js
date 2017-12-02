@@ -52,7 +52,7 @@ function createDefaultShader(gl) {
 
 function createDefaultCamera() {
   let result = new TurntableCamera();
-  result.distance = 10;
+  result.distance = 15;
   return result;
 }
 
