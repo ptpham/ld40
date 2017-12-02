@@ -11,7 +11,9 @@ Object.assign(window, {
   Render: require('./src/render'),
   Control: require('./src/control'),
   Mesh: {
-    cube: parseOBJ(require('./mesh/cube.obj'))
+    cube: parseOBJ(require('./mesh/cube.obj')),
+    face: parseOBJ(require('./mesh/face.obj')),
+    ponytail: parseOBJ(require('./mesh/ponytail.obj'))
   },
   _: require('lodash'),
   Cards: require('./src/cards'),
@@ -24,8 +26,8 @@ var renderer = new Render.Default(canvas);
 var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
-var cube = Setup.createGeometryFromObj(renderer.gl, Mesh.cube);
-renderer.geometry.push(cube);
+renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.face));
+renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
 
 
