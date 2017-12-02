@@ -8,6 +8,9 @@ function preframe(gl, canvas, color = [1,1,1,1]) {
   canvas.height = canvas.offsetHeight;
   gl.clearColor(color[0], color[1], color[2], color[3]);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  var { width, height } = canvas;
+  gl.viewport(0, 0, width, height);
 }
 
 function canvasProjection(projection, canvas) {
