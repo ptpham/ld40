@@ -2,9 +2,9 @@
 import bpy, json, os
 
 outfile = os.path.expanduser('~/faceWeights.json')
-targetName = 'Cube'
+targetName = 'face-base'
 
-target = bpy.data.objects['Cube']
+target = bpy.data.objects[targetName]
 numVertices = len(target.data.vertices)
 
 result = dict()
