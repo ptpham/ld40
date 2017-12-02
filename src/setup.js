@@ -10,9 +10,11 @@ function derefCells(array, cells) {
 function createGeometryFromObj(gl, obj) {
   let positions = derefCells(obj.positions, obj.cells);
   let normals = derefCells(obj.vertexNormals, obj.faceNormals);
+  let shifts = _.map(positions, x => [0, 0, 0]);
   return createGeometry(gl)
     .attr('position', positions)
-    .attr('normal', normals);
+    .attr('normal', normals)
+    .attr('shift', shifts);
 }
 
 module.exports = { derefCells, createGeometryFromObj };

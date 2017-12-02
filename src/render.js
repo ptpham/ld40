@@ -2,6 +2,7 @@
 let TurntableCamera = require('turntable-camera');
 let createShader = require('gl-shader');
 let { vec3, vec4, mat4 } = require('gl-matrix');
+let Setup = require('./setup');
 
 function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
@@ -20,12 +21,14 @@ function canvasProjection(projection, canvas) {
 
 function createDefaultShader(gl) {
   let vs = `
-    attribute vec3 position, normal;
+    attribute vec3 position, normal, shift;
+
     uniform mat4 projection, view;
     varying vec3 v_position, v_normal;
 
     void main() {
-      gl_Position = projection*view*vec4(position, 1.0);
+      vec3 displaced = position + shift.z*normal;
+      gl_Position = projection*view*vec4(displaced, 1.0);
       v_position = gl_Position.xyz;
       v_normal = normal;
     }
@@ -110,5 +113,31 @@ class Default extends Renderer {
   }
 }
 
-module.exports = { Default };
+class Face extends Default {
+  installFace(faceMesh, faceWeights) {
+    this.geometry = [];
+
+    this.faceMesh = faceMesh;
+    this.faceWeights = faceWeights;
+    this.faceGeometry = Setup.createGeometryFromObj(this.gl, faceMesh);
+    this.geometry.push(this.faceGeometry);
+  }
+
+  applyFaceParameters(params) {
+    let shifts = _.times(3*this.faceMesh.cells.length, i => vec3.create());
+    let { normalShifts } = params;
+    for (let key in normalShifts) {
+      let value = normalShifts[key];
+      let weights = this.faceWeights[key];
+      if (weights == null) continue;
+      for(let i = 0; i < weights.length; i++) {
+        shifts[i][2] += value*weights[i];
+      }
+    }
+
+    this.faceGeometry.attr('shift', shifts);
+  }
+}
+
+module.exports = { Default, Face };
 

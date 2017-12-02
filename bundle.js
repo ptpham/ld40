@@ -10,7 +10,6 @@ Object.assign(window, {
   Setup: require('./src/setup'),
   Render: require('./src/render'),
   Control: require('./src/control'),
-  Weights: require('./mesh/faceWeights.json'),
   Mesh: {
     cube: parseOBJ(require('./mesh/cube.obj')),
     face: parseOBJ(require('./mesh/face.obj')),
@@ -21,13 +20,20 @@ Object.assign(window, {
   Surgeon: require('./src/surgeon'),
 });
 
+Object.assign(window, {
+  FaceWeights: _.mapValues(require('./mesh/faceWeights.json'),
+    x => Setup.derefCells(x, Mesh.face.cells))
+});
+
 require('./src/events');
 
-var renderer = new Render.Default(canvas);
+var renderer = new Render.Face(canvas);
 var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
-renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.face));
+renderer.installFace(Mesh.face, FaceWeights);
+renderer.applyFaceParameters({ normalShifts: { upper_lip_center: 0.2  }});
+
 renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
 
