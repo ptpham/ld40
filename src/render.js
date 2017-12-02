@@ -4,6 +4,8 @@ let createShader = require('gl-shader');
 let { vec3, vec4, mat4 } = require('gl-matrix');
 let Setup = require('./setup');
 
+const NSHIFT = 'normalShifts';
+
 function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
@@ -123,21 +125,25 @@ class Face extends Default {
     this.geometry.push(this.faceGeometry);
   }
 
-  applyFaceParameters(params) {
+  applyFaceParameters(transforms) {
     let shifts = _.times(3*this.faceMesh.cells.length, i => vec3.create());
-    let { normalShifts } = params;
-    for (let key in normalShifts) {
-      let value = normalShifts[key];
+    transforms.forEach(({type, key, value}) => {
       let weights = this.faceWeights[key];
-      if (weights == null) continue;
-      for(let i = 0; i < weights.length; i++) {
-        shifts[i][2] += value*weights[i];
+      if (weights == null) return;
+
+      switch (type) {
+        case NSHIFT: {
+          for(let i = 0; i < weights.length; i++) {
+            shifts[i][2] += value*weights[i];
+          }
+          break;
+        }
       }
-    }
+    })
 
     this.faceGeometry.attr('shift', shifts);
   }
 }
 
-module.exports = { Default, Face };
+module.exports = { Default, Face, NSHIFT };
 

@@ -1,5 +1,6 @@
 
 var _ = require('lodash');
+var Surgery = require('./surgery');
 
 var lists = {
 
@@ -36,21 +37,7 @@ var lists = {
     '1': ['Care Dr.', 'Franklin Way', 'Sorota Row'],
   },
 
-  surgery: [
-    'Lip Injections',
-    'Rhinoplasty',
-    'Brow Lift',
-    'Ear Pinning',
-    'Filler Injections',
-    'Scar Removal',
-    'Face Lift',
-    'Cheek Lift',
-    'Neck Lift',
-    'Pore Removal',
-    'Redness Removal',
-    'Skin Tanning',
-    'Skin Bleaching',
-  ],
+  surgery: Object.keys(Surgery.surgeries),
   healRange: [0, 3],
   costRange: [500, 5000],
 };
