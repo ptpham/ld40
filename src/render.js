@@ -3,7 +3,7 @@ let TurntableCamera = require('turntable-camera');
 let createShader = require('gl-shader');
 let { mat4 } = require('gl-matrix');
 
-function preframe(gl, canvas, color = [1,1,1,1]) {
+function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
   gl.clearColor(color[0], color[1], color[2], color[3]);
@@ -15,7 +15,7 @@ function preframe(gl, canvas, color = [1,1,1,1]) {
 
 function canvasProjection(projection, canvas) {
   let { width, height } = canvas;
-  return mat4.perspective(projection, width/height, Math.PI/4, 1, 100);
+  return mat4.perspective(projection, width/height, Math.PI/2, 1, 100);
 }
 
 function createDefaultShader(gl) {
@@ -54,21 +54,34 @@ class Renderer {
     this.view = mat4.create();
     this.gl.enable(this.gl.DEPTH_TEST);
   }
+
+  preFrame() {
+    preFrame(this.gl, this.canvas);
+    canvasProjection(this.projection, this.canvas);
+    this.camera.view(this.view);
+  }
+
+  requestFrame() {
+    requestAnimationFrame(this.drawFrame.bind(this));
+  }
 }
 
 class Default extends Renderer {
   constructor(canvas) {
     super(canvas);
     this.shader = createDefaultShader(this.gl);
+    this.geometry = [];
+  }
+
+  drawFrame() {
+    this.preFrame();
+    for (let geometry of this.geometry) {
+      this.draw(geometry);
+    }
   }
 
   draw(geometry) {
-    var { canvas, camera, view, projection, shader, gl } = this;
-    preframe(gl, canvas);
-
-    camera.view(view);
-    canvasProjection(projection, canvas);
-
+    let { shader, projection, view } = this;
     geometry.bind(shader);
     shader.uniforms.projection = projection;
     shader.uniforms.view = view;

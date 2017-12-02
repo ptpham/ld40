@@ -8,6 +8,7 @@ Object.assign(window, {
 
 Object.assign(window, {
   Render: require('./src/render'),
+  Control: require('./src/control'),
   Mesh: {
     cube: parseOBJ(require('./mesh/cube.obj'))
   },
@@ -18,10 +19,14 @@ Object.assign(window, {
 require('./src/events');
 
 var renderer = new Render.Default(canvas);
+var listeners = Control.createTurntableListeners(renderer);
+Control.addListeners(window, listeners);
+
 var cube = createGeometry(renderer.gl)
   .attr('position', Mesh.cube.positions)
   .faces(Mesh.cube.cells);
-renderer.draw(cube);
+renderer.geometry.push(cube);
+renderer.requestFrame();
 
 
 Cards.render({
