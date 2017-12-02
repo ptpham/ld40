@@ -1,4 +1,4 @@
 node_modules/
-index.js
+static/index.js
 .DS_Store
 *.swp
