@@ -12,6 +12,7 @@ function createTurntableListeners(renderer) {
     renderer.requestFrame();
   }
 
+  result.resize = e => renderer.requestFrame();
   return result;
 }
 
