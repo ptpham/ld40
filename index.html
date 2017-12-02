@@ -3,67 +3,13 @@
 
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/cards.css">
 <style>
 html, body {
   margin: 0px;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-}
-
-#cards {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 320px;
-  width: 150px;
-  margin: auto;
-}
-
-#cards.closed .card {
-  transform: rotate(0turn) translate(0, 300px);
-}
-
-.card {
-  border-radius: 5px;
-  border-top: 1px solid rgba(0,0,0,0.1);
-  border-left: 1px solid rgba(0,0,0,0.1);
-  border-right: 3px solid rgba(0,0,0,0.1);
-  border-bottom: 3px solid rgba(0,0,0,0.1);
-  width: 150px;
-  height: 200px;
-  position: absolute;
-  bottom: 75px;
-  background-color: white;
-  padding: 8px;
-  cursor: pointer;
-  transition: all ease-out 200ms;
-}
-.card > * { pointer-events: none; }
-
-.card:nth-of-type(1) {
-  transform: rotate(-0.03turn) translate(-180px, 0);
-}
-
-.card:nth-of-type(2) {
-  transform: rotate(-0.01turn) translate(-60px, 20px);
-}
-
-.card:nth-of-type(3) {
-  transform: rotate(0.01turn) translate(60px, 20px);
-}
-
-.card:nth-of-type(4) {
-  transform: rotate(0.03turn) translate(180px, 0);
-}
-
-.card:hover:not(.chosen) {
-  bottom: 150px;
-  z-index: 101;
-}
-
-.card.chosen {
-  z-index: 100;
-  transform: rotate(0turn) translate(0, -150px);
 }
 
 canvas { height: 100%; width: 100%; }
@@ -75,9 +21,13 @@ canvas { height: 100%; width: 100%; }
 
   <template id="card-template">
     <div class="card">
-      <div class="name"></div>
-      <div class="type"></div>
-      <div class="flavor"></div>
+      <div class="front">
+        <div class="name"></div>
+        <div class="type"></div>
+        <div class="flavor"></div>
+      </div>
+      <div class="back">
+      </div>
     </div>
   </template>
 </body>

@@ -15,6 +15,7 @@ Object.assign(window, {
   Cards: require('./src/cards'),
 });
 
+require('./src/events');
 
 var renderer = new Render.Default(canvas);
 var cube = createGeometry(renderer.gl)
@@ -24,24 +25,28 @@ renderer.draw(cube);
 
 
 Cards.render({
+  key: 'card0',
   name: 'Dr. Rhino',
   type: 'Surgeon',
   flavor: 'Need a nose? We got some.'
 });
 
 Cards.render({
+  key: 'card1',
   name: 'Dr. Rhino',
   type: 'Surgeon',
   flavor: 'Need a nose? We got some.'
 });
 
 Cards.render({
+  key: 'card2',
   name: 'Looking for model for teen magazine.',
   type: 'Job',
   flavor: 'We\'re looking for an individual with a youthful look and a round nose. Pays $500'
 });
 
 Cards.render({
+  key: 'card3',
   name: 'Day at the beach',
   type: 'Event',
   flavor: 'Take a break at the beach.'
