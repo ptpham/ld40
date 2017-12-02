@@ -38,6 +38,7 @@ html, body {
   cursor: pointer;
   transition: all ease-out 200ms;
 }
+.card > * { pointer-events: none; }
 
 .card:nth-of-type(1) {
   transform: rotate(-0.03turn) translate(-180px, 0);
@@ -57,7 +58,7 @@ html, body {
 
 .card:hover:not(.chosen) {
   bottom: 150px;
-  z-index: 100;
+  z-index: 101;
 }
 
 .card.chosen {

@@ -11,27 +11,23 @@ function render(card) {
   cardContainer.appendChild(cardEl);
 }
 
-render({
-  name: 'Dr. Rhino',
-  type: 'Surgeon',
-  flavor: 'Need a nose? We got some.'
+function toggle() {
+  cardContainer.classList.toggle('closed');
+}
+
+document.body.addEventListener('click', function onClick(e) {
+  if (!e.target.matches('.card')) return;
+
+  for (var i=0; i < cardContainer.children.length; i++) {
+    var child = cardContainer.children.item(i);
+    if (child === e.target) continue;
+    child.classList.remove('chosen');
+  }
+  e.target.classList.toggle('chosen');
 });
 
-render({
-  name: 'Dr. Rhino',
-  type: 'Surgeon',
-  flavor: 'Need a nose? We got some.'
-});
-
-render({
-  name: 'Looking for model for teen magazine.',
-  type: 'Job',
-  flavor: 'We\'re looking for an individual with a youthful look and a round nose. Pays $500'
-});
-
-render({
-  name: 'Day at the beach',
-  type: 'Event',
-  flavor: 'Take a break at the beach.'
-});
+module.exports = {
+  render,
+  toggle,
+};
 
