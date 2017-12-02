@@ -10,7 +10,7 @@ numVertices = len(target.data.vertices)
 result = dict()
 for group in target.vertex_groups:
   weights = []
-  for i in xrange(numVertices):
+  for i in range(numVertices):
     weight = 0
     try:
       weight = group.weight(i)
