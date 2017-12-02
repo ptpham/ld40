@@ -32,9 +32,10 @@ var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
 renderer.installFace(Mesh.face, FaceWeights);
-renderer.applyFaceParameters([{
-  type: Render.NSHIFT, key: 'upper_lip_center', value: 0.2
-}]);
+renderer.applyFaceParameters({
+  injuryValues: { upper_lip_center: 1 },
+  normalShifts: { upper_lip_center: 0.2  }
+});
 
 renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
