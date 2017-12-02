@@ -18,6 +18,7 @@ Object.assign(window, {
   },
   _: require('lodash'),
   Cards: require('./src/cards'),
+  Surgeon: require('./src/surgeon'),
 });
 
 require('./src/events');

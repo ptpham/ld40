@@ -3,6 +3,14 @@ var _ = require('lodash');
 var cardContainer = document.getElementById('cards');
 var cardTemplate = document.getElementById('card-template');
 
+function Card(type, money, template, attributes) {
+  this.key = _.uniqueId('card');
+  this.type = type;
+  this.money = money;
+  this.template = template;
+  this.flavor = template(attributes);
+}
+
 function render(card) {
   var cardNode = cardTemplate.content.cloneNode(true);
   var s = cardNode.querySelector.bind(cardNode);
@@ -44,6 +52,7 @@ function select(cardEl) {
 }
 
 module.exports = {
+  Card,
   render,
   toggle,
   reset,
