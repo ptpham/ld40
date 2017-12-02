@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "prepare": "browserify bundle.js > index.js"
+    "prepare": "browserify -t [ stringify --extensions [.obj] ] bundle.js > index.js"
   },
   "dependencies": {
     "browserify": "^14.5.0",
@@ -8,6 +8,8 @@
     "gl-matrix": "^2.4.0",
     "gl-shader": "^4.2.1",
     "lodash": "^4.17.4",
+    "parse-wavefront-obj": "^1.0.3",
+    "stringify": "^5.2.0",
     "turntable-camera": "^1.0.0"
   }
 }
