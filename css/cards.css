@@ -1,0 +1,88 @@
+#cards {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 320px;
+  width: 150px;
+  margin: auto;
+}
+
+#cards.closed .card,
+#cards.hide-not-chosen .card:not(.chosen) {
+  bottom: 0;
+  transform: rotate(0turn) translate(0, 300px);
+}
+
+
+.card {
+  width: 150px;
+  height: 200px;
+  position: absolute;
+  bottom: 75px;
+  cursor: pointer;
+  transition: all ease-out 200ms;
+}
+
+.card > * { pointer-events: none; }
+
+.card .front,
+.card .back {
+  border-radius: 5px;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-left: 1px solid rgba(0,0,0,0.1);
+  border-right: 3px solid rgba(0,0,0,0.1);
+  border-bottom: 3px solid rgba(0,0,0,0.1);
+  background-color: white;
+  padding: 8px;
+  transform-style: preserve-3d;
+  position: absolute;
+  transition: transform ease-out 200ms;
+  top: 0; left: 0; right: 0; bottom: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card .front {
+  z-index: 2;
+  transform: rotateX(0) rotateY(0);
+}
+
+.card .back {
+  z-index: 1;
+  transform: rotateY(-180deg);
+}
+
+.card.chosen .front {
+  transform: rotateY(180deg);
+  z-index: 0;
+}
+
+.card.chosen .back {
+  transform: rotateY(0);
+}
+
+.card:nth-of-type(1) {
+  transform: rotate(-0.03turn) translate(-180px, 0);
+}
+
+.card:nth-of-type(2) {
+  transform: rotate(-0.01turn) translate(-60px, 20px);
+}
+
+.card:nth-of-type(3) {
+  transform: rotate(0.01turn) translate(60px, 20px);
+}
+
+.card:nth-of-type(4) {
+  transform: rotate(0.03turn) translate(180px, 0);
+}
+
+.card:hover:not(.chosen) {
+  bottom: 150px;
+  z-index: 99;
+}
+
+.card.chosen {
+  z-index: 100;
+  transform: rotate(0turn) translate(0, -150px);
+}
+
