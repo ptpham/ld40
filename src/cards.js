@@ -1,5 +1,7 @@
 
 var _ = require('lodash');
+var Data = require('./data');
+
 var cardContainer = document.getElementById('cards');
 var cardTemplate = document.getElementById('card-template');
 
@@ -21,6 +23,9 @@ function render(card) {
   var s = cardNode.querySelector.bind(cardNode);
   s('.card').setAttribute('data-key', card.key);
   s('.card').setAttribute('data-sign', Math.sign(card.money));
+  if (Data.money + card.money < 0) {
+    s('.card').classList.add('disabled');
+  }
   s('.card').classList.add(card.type);
 
   s('.type').innerText = card.type;
@@ -30,8 +35,9 @@ function render(card) {
   cardContainer.appendChild(cardNode);
 }
 
-function toggle() {
-  cardContainer.classList.toggle('closed');
+function toggle(toggle) {
+  if (toggle !== undefined) toggle = !toggle;
+  cardContainer.classList.toggle('closed', toggle);
 }
 
 function reset() {
@@ -50,7 +56,7 @@ function select(cardEl) {
     var ev = new CustomEvent('card:select', { detail: cardEl.dataset.key });
     document.body.dispatchEvent(ev);
   } else {
-    toggle();
+    toggle(false);
   }
 
   cardContainer.classList.toggle('hide-not-chosen', isChosen);
@@ -60,7 +66,8 @@ function select(cardEl) {
 function generate() {
   var type = _.sample(Object.keys(cardTypes));
   var attr = cardTypes[type].generate();
-  return new Card(type, attr.money, attr.template, attr);
+  var money = type === 'job' ? attr.pay : -attr.cost;
+  return new Card(type, money, attr.template, attr);
 }
 
 module.exports = {

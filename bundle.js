@@ -50,10 +50,10 @@ function drawCards() {
 
   Cards.reset();
   Data.cards.forEach(Cards.render);
-  setTimeout(Cards.toggle(), 1);
+  setTimeout(() => Cards.toggle(true), 400);
 }
 
-Cards.toggle();
+Cards.toggle(true);
 drawCards();
 
 
@@ -68,6 +68,8 @@ document.body.addEventListener('click', function onClick(e) {
   if (e.target.matches('.card')) {
     var card = _.find(Data.cards, ({ key }) => key === e.target.dataset.key);
     if (Data.money + card.money > 0) {
+      Data.money += card.money;
+      document.getElementById('money').innerText = Data.money; 
       var selected = Cards.select(e.target);
       if (selected) cardActions[card.type](card);
       else setTimeout(drawCards, 400);
