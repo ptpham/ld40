@@ -7,6 +7,7 @@ var cardTemplate = document.getElementById('card-template');
 
 var cardTypes = {
   surgeon: require('./surgeon'),
+  job: require('./job')
 };
 
 function Card(type, money, template, attributes) {
@@ -73,6 +74,7 @@ function generate() {
 
 module.exports = {
   Card,
+  cardTypes,
   render,
   flip,
   unflip,

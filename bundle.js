@@ -64,9 +64,6 @@ document.body.addEventListener('click', function onClick(e) {
 
 
 document.body.addEventListener('card:select', function onCardSelect(e) {
-  var cardActions = {
-    surgeon: (card) => { Surgeon.perform(card.attributes); },
-  };
 
   // Do turn healing first
   if (Data.transform.injuryValues) {
@@ -81,7 +78,7 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
     Data.money += card.money;
     document.getElementById('money').innerText = Data.money;
     Cards.flip(card);
-    cardActions[card.type](card);
+    Cards.cardTypes[card.type].perform(card.attributes);
   }
 
   renderer.applyFaceParameters(Data.transform);
