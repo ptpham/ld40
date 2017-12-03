@@ -132,3 +132,8 @@
   opacity: 0.5;
 }
 
+.card *::selection {
+  background: none;
+}
+
+
