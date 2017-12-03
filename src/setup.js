@@ -11,9 +11,11 @@ function derefCells(array, cells) {
 function createGeometryFromObj(gl, obj) {
   let positions = derefCells(obj.positions, obj.cells);
   let normals = derefCells(obj.vertexNormals, obj.faceNormals);
+  let shifts = _.times(positions.length, i => vec3.create());
   return createGeometry(gl)
     .attr('position', positions)
-    .attr('normal', normals);
+    .attr('normal', normals)
+    .attr('shift', shifts);
 }
 
 function weightedPositionAverage(mesh, weightsSet) {

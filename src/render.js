@@ -107,16 +107,16 @@ class Default extends Renderer {
     document.body.dispatchEvent(new CustomEvent('render'));
   }
 
-  draw(geometry) {
+  draw(geometry, overrides = {}) {
     let { shader, projection, view } = this;
     let { uniforms } = shader;
     geometry.bind(shader);
     uniforms.projection = projection;
     uniforms.lightPosition0 = this.lightPosition0;
     uniforms.lightPosition1 = this.lightPosition1;
-    uniforms.ambientColor = this.ambientColor;
-    uniforms.specularColor = this.specularColor;
-    uniforms.diffuseColor = this.diffuseColor;
+    uniforms.ambientColor = overrides.ambientColor || this.ambientColor;
+    uniforms.specularColor = overrides.specularColor || this.specularColor;
+    uniforms.diffuseColor = overrides.diffuseColor || this.diffuseColor;
     uniforms.injuryColor = this.injuryColor;
     uniforms.view = view;
     geometry.draw();
@@ -126,6 +126,9 @@ class Default extends Renderer {
 class Face extends Default {
   constructor(canvas) {
     super(canvas);
+    this.hairAmbientColor = vec4.fromValues(0.3,0.1,0.3,1);
+    this.hairSpecularColor = vec4.fromValues(1,0.8,0.4,1);
+    this.hairDiffuseColor = vec4.fromValues(0.4,0.3,0.2,1);
   }
 
   installFace(faceMesh, faceWeights) {
@@ -162,6 +165,21 @@ class Face extends Default {
     this._applyWeights(injuryValues, 0);
 
     this.faceGeometry.attr('shift', shifts);
+  }
+
+  drawFrame() {
+    this.preFrame();
+    let hairOptions = {
+      ambientColor: this.hairAmbientColor,
+      specularColor: this.hairSpecularColor,
+      diffuseColor: this.diffuseColor
+    };
+
+    for (let geometry of this.geometry) {
+      let options = geometry != this.faceGeometry ? hairOptions : undefined;
+      this.draw(geometry, options);
+    }
+    document.body.dispatchEvent(new CustomEvent('render'));
   }
 }
 
