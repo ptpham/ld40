@@ -3,6 +3,10 @@ var _ = require('lodash');
 var cardContainer = document.getElementById('cards');
 var cardTemplate = document.getElementById('card-template');
 
+var cardTypes = {
+  surgeon: require('./surgeon'),
+};
+
 function Card(type, money, template, attributes) {
   this.key = _.uniqueId('card');
   this.type = type;
@@ -51,11 +55,18 @@ function select(cardEl) {
   cardContainer.classList.toggle('hide-not-chosen', isChosen);
 }
 
+function generate() {
+  var type = _.sample(Object.keys(cardTypes));
+  var attr = cardTypes[type].generate();
+  return new Card(type, attr.money, attr.template, attr);
+}
+
 module.exports = {
   Card,
   render,
   toggle,
   reset,
   select: _.throttle(select, 888),
+  generate,
 };
 

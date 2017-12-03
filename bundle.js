@@ -41,31 +41,8 @@ renderer.requestFrame();
 var surgeon = Surgeon.generate();
 renderer.applyFaceParameters(Surgeon.perform(surgeon));
 
-Cards.render({
-  key: 'card0',
-  type: 'surgeon',
-  money: -500,
-  flavor: 'Need a nose? We got some. Come see Dr. Rhino.'
-});
-
-Cards.render({
-  key: 'card1',
-  type: 'surgeon',
-  money: -1000,
-  flavor: 'Need a nose? We got some. Check the back alley.'
-});
-
-Cards.render({
-  key: 'card2',
-  type: 'job',
-  money: 500,
-  flavor: 'We\'re looking for an individual with a youthful look and a round nose. Pays $500'
-});
-
-Cards.render({
-  key: 'card3',
-  type: 'event',
-  money: 0,
-  flavor: 'Take a break at the beach.'
-});
+Cards.render(Cards.generate());
+Cards.render(Cards.generate());
+Cards.render(Cards.generate());
+Cards.render(Cards.generate());
 

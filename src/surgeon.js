@@ -79,13 +79,47 @@ var lists = {
     '1': ['Care Dr.', 'Franklin Way', 'Sorota Row'],
   },
 
+  templates: {
+    '-1': [
+      (s) => `
+        <p>
+          Yo, you need ${s.surgery}?! <br />
+          We got some just for you! <br />
+          Come visit ${s.name} at ${s.office}!
+        </p>
+      `,
+    ],
+    '0': [
+      (s) => `
+        <name>${s.name}</name>
+        <address>${s.office}</address>
+        <p>
+          Need a ${s.surgery}?
+          <br />
+          We're offerring specials for ${s.cost}.
+        </p>
+      `,
+    ],
+    '1': [
+      (s) => `
+        <name>${s.name}</name>
+        <address>${s.office}</address>
+        <school>${s.school}</school>
+        <p>
+         We believe in bringing out the best in you!
+         Today only, we're offering ${s.surgery} for ${s.cost}.
+        </p>
+      `
+    ],
+  },
+
   surgery: Object.keys(surgeries),
   healRange: [0, 3],
   costRange: [500, 5000],
 };
 
 var getListBySkill = (skill, listsBySkill) => {
-  var jitter = _.random.apply(_, lists.skillRange);
+  var jitter = _.random(0, 1);
   return listsBySkill[Math.sign(skill + jitter)];
 };
 
@@ -93,6 +127,8 @@ function generate() {
   var surgeon = {};
   var skill = surgeon.skill = _.random.apply(_, lists.skillRange);
   surgeon.cost = _.random.apply(_, lists.costRange) + (skill * 100);
+  surgeon.cost = Math.round(surgeon.cost / 100) * 100;
+  surgeon.money = surgeon.cost;
   surgeon.heal = Math.max(_.random.apply(_, lists.healRange) - skill, 0);
   surgeon.surgery = _.sample(lists.surgery);
   surgeon.office = [
@@ -108,6 +144,7 @@ function generate() {
     _.sample(lists.lastName),
     _.sample(getListBySkill(skill, lists.postfix)),
   ]).join(' ');
+  surgeon.template = _.sample(getListBySkill(skill, lists.templates));
   return surgeon;
 }
 
