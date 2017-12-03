@@ -4,6 +4,7 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/cards.css">
+<link rel="stylesheet" type="text/css" href="css/health.css">
 <style>
 html, body {
   margin: 0px;
@@ -18,6 +19,7 @@ canvas { height: 100%; width: 100%; }
 </head>
 <body>
   <canvas id="canvas"></canvas>
+  <div id="health"></div>
   <div id="cards"></div>
 
   <template id="card-template">
@@ -35,6 +37,15 @@ canvas { height: 100%; width: 100%; }
       </div>
     </div>
   </template>
+
+  <template id="health-template">
+    <div class="health-node">
+      <div class="name"></div>
+      <div class="number"></div>
+      <div class="subtext">Turns to heal</div>
+    </div>
+  </template>
+
 </body>
 <script src="static/index.js"></script>
 </html>
