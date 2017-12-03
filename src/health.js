@@ -52,8 +52,15 @@ class Manager {
     this.cameraMat = mat4.create();
     this.renderer = renderer;
     this.turnsToHeal = { nose_bridge: 10, upper_ear_left: 5 };
+    this.show = true;
 
     document.body.addEventListener('render', () => this.layout());
+    document.body.addEventListener('keydown', e => {
+      if (e.key == ' ') {
+        this.show ^= 1; 
+        this.layout();
+      }
+    });
   }
 
   layout() {
@@ -85,6 +92,7 @@ class Manager {
 
       entry.zIndex = i;
       entry.opacity = (1 - minOpacity)*(entry.z - minZ) / (maxZ - minZ) + minOpacity;
+      if (!this.show) entry.opacity = 0;
 
       let existing = healthContainer.querySelector(`.health-node[data-part="${name}"]`);
       if (existing == null) existing = makeHealthNode(name);
