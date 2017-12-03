@@ -44,23 +44,24 @@ function reset() {
   cardContainer.innerHTML = '';
 }
 
-function select(cardEl) {
+function select(card) {
+  var ev = new CustomEvent('card:select', { detail: card });
+  document.body.dispatchEvent(ev);
+}
+
+function flip(card) {
+  unflip();
+  var cardEl = cardContainer.querySelector(`[data-key="${card.key}"]`);
+  cardEl.classList.toggle('chosen', true);
+  cardContainer.classList.toggle('hide-not-chosen', true);
+}
+
+function unflip() {
   for (var i=0; i < cardContainer.children.length; i++) {
     var child = cardContainer.children.item(i);
-    if (child === cardEl) continue;
     child.classList.remove('chosen');
   }
-
-  var isChosen = cardEl.classList.toggle('chosen');
-  if (isChosen) {
-    var ev = new CustomEvent('card:select', { detail: cardEl.dataset.key });
-    document.body.dispatchEvent(ev);
-  } else {
-    toggle(false);
-  }
-
-  cardContainer.classList.toggle('hide-not-chosen', isChosen);
-  return isChosen;
+  cardContainer.classList.toggle('hide-not-chosen', false);
 }
 
 function generate() {
@@ -73,6 +74,8 @@ function generate() {
 module.exports = {
   Card,
   render,
+  flip,
+  unflip,
   toggle,
   reset,
   select: _.throttle(select, 888),

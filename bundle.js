@@ -50,6 +50,7 @@ function drawCards() {
   ];
   console.log('Drawing Cards');
 
+  Cards.unflip();
   Cards.reset();
   Data.cards.forEach(Cards.render);
   setTimeout(() => Cards.toggle(true), 200);
@@ -60,30 +61,41 @@ drawCards();
 
 
 document.body.addEventListener('click', function onClick(e) {
-  var cardActions = {
-    surgeon: (card) => {
-      renderer.applyFaceParameters(Surgeon.perform(card.attributes));
-      renderer.requestFrame();
-    },
-  };
-
   if (e.target.matches('.card')) {
     var card = _.find(Data.cards, ({ key }) => key === e.target.dataset.key);
     if (e.target.classList.contains('chosen')) {
+      Cards.toggle(false);
       setTimeout(drawCards, 400);
-    } else if (Data.money + card.money > 0) {
-      Data.money += card.money;
-      document.getElementById('money').innerText = Data.money;
-      cardActions[card.type](card);
+    } else {
+      Cards.select(card);
     }
-    Cards.select(e.target);
   }
-
 });
 
 
 document.body.addEventListener('card:select', function onCardSelect(e) {
-  console.log(e);
+  var cardActions = {
+    surgeon: (card) => { Surgeon.perform(card.attributes); },
+  };
+
+  // Do turn healing first
+  if (Data.transform.injuryValues) {
+    for (let key in Data.transform.injuryValues) {
+      let current = Data.transform.injuryValues[key];
+      Data.transform.injuryValues[key] = Math.max(current - Surgeon.HEAL_PER_TURN, 0);
+    }
+  }
+
+  var card = e.detail;
+  if (Data.money + card.money > 0) {
+    Data.money += card.money;
+    document.getElementById('money').innerText = Data.money;
+    Cards.flip(card);
+    cardActions[card.type](card);
+  }
+
+  renderer.applyFaceParameters(Data.transform);
+  renderer.requestFrame();
 });
 
 

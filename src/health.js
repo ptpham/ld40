@@ -74,9 +74,13 @@ class Manager {
     mat4.multiply(cameraMat, renderer.projection, renderer.view);
 
     let pending = [];
+    let removing = [];
     for (let aggregation in aggregationAverages) {
       let turns = _.max(aggregations.get(aggregation).map(getTurnsToHeal)) || 0;
-      if (turns == 0) continue;
+      if (turns == 0) {
+        removing.push({ name: aggregation });
+        continue;
+      }
 
       let worldPoint = aggregationAverages[aggregation];
       let screenPoint = vec3.transformMat4(vec3.create(), worldPoint, cameraMat);
@@ -101,6 +105,13 @@ class Manager {
       let existing = healthContainer.querySelector(`.health-node[data-part="${name}"]`);
       if (existing == null) existing = makeHealthNode(name);
       applyHealthData(existing, entry);
+    }
+
+    for (let i = 0; i < removing.length; i++) {
+      let entry = removing[i];
+      let name = entry.name;
+      let existing = healthContainer.querySelector(`.health-node[data-part="${name}"]`);
+      if (existing) existing.remove();
     }
   }
 }
