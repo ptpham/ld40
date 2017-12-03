@@ -34,17 +34,17 @@ var events = [
   },
   {
     text: 'relax at home',
-    risk: 'Stayed up all night!.',
+    risk: 'Stayed up all night!',
     chance: 0.3,
   },
   {
     text: 'visit an old friend',
-    risk: 'Stayed up all night!.',
+    risk: 'Stayed up all night!',
     chance: 0.3,
   },
   {
     text: 'get some drinks',
-    risk: 'Stayed up all night!.',
+    risk: 'Stayed up all night!',
     chance: 0.6,
   }
 ];
