@@ -10,8 +10,8 @@ function createTurntableListeners(renderer) {
   result.mouseup = e => isDown = false;
   result.mousemove = e => {
     if (!isDown) return;
-    camera.downwards = _.clamp(camera.downwards + e.movementY/100, -Math.PI/8, Math.PI/8);
-    camera.rotation += e.movementX/100;
+    camera.downwards = _.clamp(camera.downwards + e.movementY/200, -Math.PI/16, Math.PI/16);
+    camera.rotation = _.clamp(camera.rotation + e.movementX/100, -Math.PI/4, Math.PI/4);
     renderer.requestFrame();
   }
 
