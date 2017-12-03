@@ -1,11 +1,17 @@
 
 let { vec3, mat4 } = require('gl-matrix');
 let Multimap = require('multimap');
+let Surgeon = require('./surgeon');
+let Data = require('./data');
 
 let EPSILON = 0.000001;
 
 let healthContainer = document.querySelector('#health');
 let healthTemplate = document.querySelector('#health-template');
+
+function getTurnsToHeal(partName) {
+  return Math.ceil(_.get(Data, 'transform.injuryValues.' + partName) / Surgeon.HEAL_PER_TURN);
+}
 
 let aggregations = new Multimap([
   ['Nose', 'nose_bridge'],
@@ -51,7 +57,6 @@ class Manager {
     this.aggregationAverages = aggregationAverages;
     this.cameraMat = mat4.create();
     this.renderer = renderer;
-    this.turnsToHeal = { nose_bridge: 10, upper_ear_left: 5 };
     this.show = true;
 
     document.body.addEventListener('render', () => this.layout());
@@ -70,8 +75,7 @@ class Manager {
 
     let pending = [];
     for (let aggregation in aggregationAverages) {
-      let turns = _.max(aggregations.get(aggregation).map(
-        partName => this.turnsToHeal[partName])) || 0;
+      let turns = _.max(aggregations.get(aggregation).map(getTurnsToHeal)) || 0;
       if (turns == 0) continue;
 
       let worldPoint = aggregationAverages[aggregation];

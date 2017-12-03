@@ -2,6 +2,8 @@
 var _ = require('lodash');
 var Data = require('./data');
 
+var HEAL_PER_TURN = 0.2;
+
 var surgeries = {
   'upper lip injections': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
@@ -10,8 +12,8 @@ var surgeries = {
         upper_lip_center: 0.1 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
-        upper_lip_center: heal / 5,
-        lower_lip_center: jitter / 5,
+        upper_lip_center: heal * HEAL_PER_TURN, 
+        lower_lip_center: jitter * HEAL_PER_TURN,
       },
     };
   },
@@ -22,8 +24,8 @@ var surgeries = {
         lower_lip_center: 0.1 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
-        lower_lip_center: heal / 5,
-        upper_lip_center: jitter / 5,
+        lower_lip_center: heal * HEAL_PER_TURN, 
+        upper_lip_center: jitter * HEAL_PER_TURN,
       },
     };
   },
@@ -36,9 +38,9 @@ var surgeries = {
         under_eyes: _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
-        upper_cheek_left: heal / 5,
-        upper_cheek_right: heal / 5,
-        under_eyes: jitter / 5,
+        upper_cheek_left: heal * HEAL_PER_TURN,
+        upper_cheek_right: heal * HEAL_PER_TURN,
+        under_eyes: jitter * HEAL_PER_TURN,
       },
     };
   },
@@ -165,5 +167,5 @@ function mergeTransform(params) {
   return Data.transform;
 }
 
-module.exports = { generate, perform, surgeries };
+module.exports = { generate, perform, surgeries, HEAL_PER_TURN };
 
