@@ -27,6 +27,8 @@ Object.assign(window, {
 
 require('./src/events');
 
+var facePartAverages = Setup.weightedPositionAverage(Mesh.face, FaceWeights);
+
 var renderer = new Render.Face(canvas);
 var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
