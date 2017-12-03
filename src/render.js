@@ -62,6 +62,8 @@ function createDefaultCamera() {
   let result = new TurntableCamera();
   result.center[1] -= 1;
   result.distance = 10;
+  result.rotation = -Math.PI/6;
+  result.downwards = -Math.PI/16;
   return result;
 }
 
@@ -170,6 +172,11 @@ class Face extends Default {
 
   drawFrame() {
     this.preFrame();
+
+    let { canvas: { width, height } } = this;
+    mat4.perspective(this.projection, Math.PI/4, width/height*(2/3), 1, 100);
+    this.gl.viewport(0, 0, 2*width/3, height);
+
     let hairOptions = {
       ambientColor: this.hairAmbientColor,
       specularColor: this.hairSpecularColor,
