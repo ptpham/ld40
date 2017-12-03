@@ -17,3 +17,7 @@
   color: white;
 }
 
+.health-node *::selection {
+  background: none;
+}
+
