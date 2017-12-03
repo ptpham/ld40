@@ -29,6 +29,7 @@ function makeHealthNode(name) {
 
 function applyHealthData(healthNode, health) {
   healthNode.querySelector('.name').innerText = health.name;
+  healthNode.querySelector('.turns').innerText = health.turns;
   healthNode.style.left = (health.x - 75) + 'px';
   healthNode.style.top = (health.y - 25) + 'px';
   healthNode.style.opacity = health.opacity;
@@ -50,7 +51,7 @@ class Manager {
     this.aggregationAverages = aggregationAverages;
     this.cameraMat = mat4.create();
     this.renderer = renderer;
-    this.turnsToHeal = { };
+    this.turnsToHeal = { nose_bridge: 10, upper_ear_left: 5 };
 
     document.body.addEventListener('render', () => this.layout());
   }
@@ -62,23 +63,28 @@ class Manager {
 
     let pending = [];
     for (let aggregation in aggregationAverages) {
+      let turns = _.max(aggregations.get(aggregation).map(
+        partName => this.turnsToHeal[partName])) || 0;
+      if (turns == 0) continue;
+
       let worldPoint = aggregationAverages[aggregation];
       let screenPoint = vec3.transformMat4(vec3.create(), worldPoint, cameraMat);
       let x = (screenPoint[0]+1)*width/2;
       let y = (-screenPoint[1]+1)*height/2;
-      pending.push({ name: aggregation, x, y, z: -screenPoint[2] });
+      pending.push({ name: aggregation, x, y, z: -screenPoint[2], turns });
     }
 
     let allZ = _.map(pending, 'z');
     let minZ = _.min(allZ), maxZ = _.max(allZ);
     pending = _.sortBy(pending, x => x.z);
 
+    let minOpacity = 1/pending.length;
     for (let i = 0; i < pending.length; i++) {
       let entry = pending[i];
       let { name } = entry;
 
       entry.zIndex = i;
-      entry.opacity = (entry.z - minZ) / (maxZ - minZ);
+      entry.opacity = (1 - minOpacity)*(entry.z - minZ) / (maxZ - minZ) + minOpacity;
 
       let existing = healthContainer.querySelector(`.health-node[data-part="${name}"]`);
       if (existing == null) existing = makeHealthNode(name);
