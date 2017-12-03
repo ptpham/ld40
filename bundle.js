@@ -16,6 +16,7 @@ Object.assign(window, {
     ponytail: parseOBJ(require('./mesh/ponytail.obj'))
   },
   _: require('lodash'),
+  Data: require('./src/data'),
   Cards: require('./src/cards'),
   Surgeon: require('./src/surgeon'),
 });
@@ -32,14 +33,11 @@ var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
 renderer.installFace(Mesh.face, FaceWeights);
-renderer.applyFaceParameters({
-  injuryValues: { upper_lip_center: 1 },
-  normalShifts: { upper_lip_center: 0.2  }
-});
-
 renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
 
+var surgeon = Surgeon.generate();
+renderer.applyFaceParameters(Surgeon.perform(surgeon));
 
 Cards.render({
   key: 'card0',

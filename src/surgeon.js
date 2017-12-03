@@ -1,5 +1,6 @@
 
 var _ = require('lodash');
+var Data = require('./data');
 var Surgery = require('./surgery');
 
 var lists = {
@@ -69,5 +70,22 @@ function generate() {
   return surgeon;
 }
 
-module.exports = { generate };
+function perform(surgeon) {
+  return mergeTransform(
+    Surgery.surgeries[surgeon.surgery](surgeon.skill, surgeon.heal)
+  );
+}
+
+function mergeTransform(params) {
+  for (let param in params) {
+    Data.transform[param] = Data.transform[param] || {};
+    for (let key in params[param]) {
+      Data.transform[param][key] = Data.transform[param][key] || 0;
+      Data.transform[param][key] += params[param][key];
+    }
+  }
+  return Data.transform;
+}
+
+module.exports = { generate, perform };
 
