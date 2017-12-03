@@ -35,6 +35,12 @@ function render(card) {
   cardContainer.appendChild(cardNode);
 }
 
+function renderBack(card, message) {
+  var cardEl = cardContainer.querySelector(`[data-key="${card.key}"]`);
+  var s = cardEl.querySelector.bind(cardEl);
+  s('.back p').innerText = message;
+}
+
 function toggle(toggle) {
   if (toggle !== undefined) toggle = !toggle;
   cardContainer.classList.toggle('closed', toggle);
@@ -74,6 +80,7 @@ function generate() {
 module.exports = {
   Card,
   render,
+  renderBack,
   flip,
   unflip,
   toggle,
