@@ -80,6 +80,7 @@ let generatorList = _.concat(
 
 function perform(job) {
   Data.money += job.pay;
+  return `You made ${job.pay} dollars!`;
 }
 
 function generate() {

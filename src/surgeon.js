@@ -151,9 +151,9 @@ function generate() {
 }
 
 function perform(surgeon) {
-  return mergeTransform(
-    surgeries[surgeon.surgery](surgeon.skill, surgeon.heal)
-  );
+  mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
+  return `${surgeon.name} performed the ${surgeon.surgery}.
+     ${surgeon.heal > 1 ? 'You may need a few days to heal...' : 'You feel pretty good!'}`;
 }
 
 function mergeTransform(params) {
@@ -166,6 +166,7 @@ function mergeTransform(params) {
   }
   return Data.transform;
 }
+
 
 module.exports = { generate, perform, surgeries, HEAL_PER_TURN };
 
