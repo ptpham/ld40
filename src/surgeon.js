@@ -2,7 +2,7 @@
 var _ = require('lodash');
 var Data = require('./data');
 
-var HEAL_PER_TURN = 0.2;
+var { HEAL_PER_TURN } = Data;
 
 var surgeries = {
   'upper lip injections': (skill, heal) => {
