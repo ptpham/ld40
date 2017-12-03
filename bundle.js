@@ -28,6 +28,7 @@ Object.assign(window, {
 });
 
 var renderer = new Render.Face(canvas);
+
 var facePartAverages = Setup.weightedPositionAverage(Mesh.face, FaceWeights);
 var healthManager = new Health.Manager(renderer, facePartAverages);
 
@@ -51,10 +52,10 @@ function drawCards() {
 
   Cards.reset();
   Data.cards.forEach(Cards.render);
-  setTimeout(Cards.toggle(), 1);
+  setTimeout(() => Cards.toggle(true), 200);
 }
 
-Cards.toggle();
+Cards.toggle(true);
 drawCards();
 
 
@@ -68,11 +69,14 @@ document.body.addEventListener('click', function onClick(e) {
 
   if (e.target.matches('.card')) {
     var card = _.find(Data.cards, ({ key }) => key === e.target.dataset.key);
-    if (Data.money + card.money > 0) {
-      var selected = Cards.select(e.target);
-      if (selected) cardActions[card.type](card);
-      else setTimeout(drawCards, 400);
+    if (e.target.classList.contains('chosen')) {
+      setTimeout(drawCards, 400);
+    } else if (Data.money + card.money > 0) {
+      Data.money += card.money;
+      document.getElementById('money').innerText = Data.money;
+      cardActions[card.type](card);
     }
+    Cards.select(e.target);
   }
 
 });
