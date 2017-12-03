@@ -104,6 +104,7 @@ class Default extends Renderer {
     for (let geometry of this.geometry) {
       this.draw(geometry);
     }
+    document.body.dispatchEvent(new CustomEvent('render'));
   }
 
   draw(geometry) {
