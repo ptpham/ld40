@@ -1,7 +1,8 @@
 {
   "scripts": {
     "prepare": "browserify -t [ stringify --extensions [.obj] ] bundle.js > static/index.js",
-    "prepare:watch": "watch 'npm run prepare' ./ -d -p /static/"
+    "prepare:watch": "watch 'npm run prepare' ./ -d -p /static/",
+    "start": "npm run prepare:watch"
   },
   "dependencies": {
     "browserify": "^14.5.0",
