@@ -111,10 +111,9 @@ function perform(event) {
   if (accident) {
     var transform = accidents[event.risk]();
     Surgeon.mergeTransform(transform);
-    event.result = `${response} <p><strong>${event.risk}</strong> Better rest for a bit.</p>`;
-  } else {
-    event.result =`${response} <p>It was uneventful.</p>`;
+    return `${response} <p><strong>${event.risk}</strong> Better rest for a bit.</p>`;
   }
+  return `${response} <p>It was uneventful.</p>`;
 }
 
 module.exports = {

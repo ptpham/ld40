@@ -2,7 +2,7 @@
 var _ = require('lodash');
 var Data = require('./data');
 
-var HEAL_PER_TURN = 0.2;
+var { HEAL_PER_TURN } = Data;
 
 var surgeries = {
   'upper lip injections': (skill, heal) => {
@@ -151,9 +151,9 @@ function generate() {
 }
 
 function perform(surgeon) {
-  return mergeTransform(
-    surgeries[surgeon.surgery](surgeon.skill, surgeon.heal)
-  );
+  mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
+  return `${surgeon.name} performed the ${surgeon.surgery}.
+     ${surgeon.heal > 1 ? 'You may need a few days to heal...' : 'You feel pretty good!'}`;
 }
 
 function mergeTransform(params) {

@@ -8,6 +8,7 @@ var cardTemplate = document.getElementById('card-template');
 var cardTypes = {
   surgeon: require('./surgeon'),
   event: require('./events'),
+  job: require('./job')
 };
 
 function Card(type, money, template, attributes) {
@@ -39,7 +40,7 @@ function render(card) {
 function renderBack(card, message) {
   var cardEl = cardContainer.querySelector(`[data-key="${card.key}"]`);
   var s = cardEl.querySelector.bind(cardEl);
-  s('.back p').innerText = message;
+  s('.back p').innerHTML = message;
 }
 
 function toggle(toggle) {
@@ -80,6 +81,7 @@ function generate(_type) {
 
 module.exports = {
   Card,
+  cardTypes,
   render,
   renderBack,
   flip,
