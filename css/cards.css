@@ -4,6 +4,7 @@
   height: 300px;
   width: 180px;
   margin: auto;
+  z-index: 100;
 }
 
 #cards.closed .card,
