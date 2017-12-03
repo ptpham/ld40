@@ -29,7 +29,7 @@ var surgeries = {
       },
     };
   },
-  'cheek injections': (skill, heal) => {
+  'cheek lift': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
@@ -44,7 +44,31 @@ var surgeries = {
       },
     };
   },
-
+  'nose bridge adjustment': (skill, heal) => {
+    var jitterVal = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_bridge: -0.1 + jitterVal * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_bridge: heal * HEAL_PER_TURN,
+      },
+    };
+  },
+  'brow injections': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        brow_left: 0.1 + _.random(0, 0.05 * jitter, true),
+        brow_right: 0.1 + _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        brow_left: heal * HEAL_PER_TURN,
+        brow_right: heal * HEAL_PER_TURN,
+      },
+    };
+  },
 };
 
 var lists = {
