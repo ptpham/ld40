@@ -3,7 +3,6 @@ Object.assign(window, require('gl-matrix'));
 Object.assign(window, {
   createShader: require('gl-shader'),
   createGeometry: require('gl-geometry'),
-  parseOBJ: require('parse-wavefront-obj')
 });
 
 Object.assign(window, {
@@ -11,31 +10,22 @@ Object.assign(window, {
   Render: require('./src/render'),
   Control: require('./src/control'),
   Health: require('./src/health'),
-  Mesh: {
-    cube: parseOBJ(require('./mesh/cube.obj')),
-    face: parseOBJ(require('./mesh/face.obj')),
-    ponytail: parseOBJ(require('./mesh/ponytail.obj'))
-  },
+  Mesh: require('./src/mesh'),
   _: require('lodash'),
   Data: require('./src/data'),
   Cards: require('./src/cards'),
   Surgeon: require('./src/surgeon'),
 });
 
-Object.assign(window, {
-  FaceWeights: _.mapValues(require('./mesh/faceWeights.json'),
-    x => Setup.derefCells(x, Mesh.face.cells))
-});
-
 var renderer = new Render.Face(canvas);
 
-var facePartAverages = Setup.weightedPositionAverage(Mesh.face, FaceWeights);
+var facePartAverages = Setup.weightedPositionAverage(Mesh.face, Mesh.faceWeights);
 var healthManager = new Health.Manager(renderer, facePartAverages);
 
 var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
-renderer.installFace(Mesh.face, FaceWeights);
+renderer.installFace(Mesh.face, Mesh.faceWeights);
 renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
 
