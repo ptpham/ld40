@@ -116,5 +116,5 @@ class Manager {
   }
 }
 
-module.exports = { Manager };
+module.exports = { Manager, aggregations };
 

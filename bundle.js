@@ -15,6 +15,7 @@ Object.assign(window, {
   Data: require('./src/data'),
   Cards: require('./src/cards'),
   Surgeon: require('./src/surgeon'),
+  Events: require('./src/events'),
 });
 
 var renderer = new Render.Face(canvas);
@@ -66,12 +67,14 @@ document.body.addEventListener('click', function onClick(e) {
 document.body.addEventListener('card:select', function onCardSelect(e) {
   var cardActions = {
     surgeon: (card) => { Surgeon.perform(card.attributes); },
+    event: (card) => { Events.perform(card.attributes); },
   };
 
   var cardBack = {
     surgeon: (card) =>
       `${card.attributes.name} performed the ${card.attributes.surgery}.
        ${card.attributes.heal > 1 ? 'You may need a few days to heal...' : 'You feel pretty good!'}`,
+    event: (card) => card.attributes.result,
   };
 
   // Do turn healing first
@@ -86,9 +89,9 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
   if (Data.money + card.money > 0) {
     Data.money += card.money;
     document.getElementById('money').innerText = Data.money;
+    cardActions[card.type](card);
     Cards.renderBack(card, cardBack[card.type](card));
     Cards.flip(card);
-    cardActions[card.type](card);
   }
 
   renderer.applyFaceParameters(Data.transform);

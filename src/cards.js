@@ -7,6 +7,7 @@ var cardTemplate = document.getElementById('card-template');
 
 var cardTypes = {
   surgeon: require('./surgeon'),
+  event: require('./events'),
 };
 
 function Card(type, money, template, attributes) {
@@ -70,10 +71,10 @@ function unflip() {
   cardContainer.classList.toggle('hide-not-chosen', false);
 }
 
-function generate() {
-  var type = _.sample(Object.keys(cardTypes));
+function generate(_type) {
+  var type = _type || _.sample(Object.keys(cardTypes));
   var attr = cardTypes[type].generate();
-  var money = type === 'job' ? attr.pay : -attr.cost;
+  var money = (type === 'job' ? attr.pay : -attr.cost) || 0;
   return new Card(type, money, attr.template, attr);
 }
 

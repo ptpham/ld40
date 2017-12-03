@@ -167,5 +167,10 @@ function mergeTransform(params) {
   return Data.transform;
 }
 
-module.exports = { generate, perform, surgeries, HEAL_PER_TURN };
+module.exports = {
+  generate,
+  perform,
+  surgeries,
+  mergeTransform,
+  HEAL_PER_TURN };
 
