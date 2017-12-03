@@ -32,13 +32,17 @@ renderer.requestFrame();
 
 
 function drawCards() {
+  var cardTypes = ['surgeon', 'job', 'event'];
+
+  // Show at least 2 kinds of cards per turn
+  var pickedTypes = _.sampleSize(cardTypes, 2);
+  var cards = pickedTypes.map(type => Cards.generate(type));
   Data.cards = [];
-  Data.cards = [
+  Data.cards = cards;
+  Data.cards.push(
     Cards.generate(),
     Cards.generate(),
-    Cards.generate(),
-    Cards.generate(),
-  ];
+  );
   console.log('Drawing Cards');
 
   Cards.unflip();
