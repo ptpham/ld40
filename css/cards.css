@@ -21,6 +21,7 @@
   bottom: 75px;
   cursor: pointer;
   transition: all ease-out 200ms;
+  font-size: 0.9rem;
 }
 
 .card > * { pointer-events: none; }
@@ -136,4 +137,7 @@
   background: none;
 }
 
+.card .back > p {
+  margin: 0;
+}
 
