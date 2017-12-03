@@ -13,6 +13,7 @@ function Card(type, money, template, attributes) {
   this.money = money;
   this.template = template;
   this.flavor = template(attributes);
+  this.attributes = attributes;
 }
 
 function render(card) {
@@ -53,6 +54,7 @@ function select(cardEl) {
   }
 
   cardContainer.classList.toggle('hide-not-chosen', isChosen);
+  return isChosen;
 }
 
 function generate() {
