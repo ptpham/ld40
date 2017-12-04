@@ -86,8 +86,11 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
 
   renderer.applyFaceParameters(Data.transform);
   renderer.requestFrame();
+
+  // Pay Rent
+  Data.money -= 50;
+  Money.renderChange(-50, 'rent');
+
   Money.render();
 });
-
-
 

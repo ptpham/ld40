@@ -49,12 +49,12 @@
 
 #money .change[data-sign="1"] {
   top: 150%;
-  opacity: 0;
+  opacity: 1;
   color: #60806d;
 }
 
 #money .change.animate[data-sign="1"] {
   top: 100%;
-  opacity: 1;
+  opacity: 0;
 }
 
