@@ -422,7 +422,7 @@ var lists = {
 
   surgery: Object.keys(surgeries),
   healRange: [0, 3],
-  costRange: [500, 5000],
+  costRange: [100, 1000],
 };
 
 var getListBySkill = (skill, listsBySkill) => {
@@ -434,7 +434,7 @@ function generate() {
   var surgeon = {};
   var skill = surgeon.skill = _.random.apply(_, lists.skillRange);
   surgeon.cost = _.random.apply(_, lists.costRange) + (skill * 100);
-  surgeon.cost = Math.round(surgeon.cost / 100) * 100;
+  surgeon.cost = Math.round(surgeon.cost / 10) * 10;
   surgeon.money = surgeon.cost;
   surgeon.heal = Math.max(_.random.apply(_, lists.healRange) - skill, 0);
   surgeon.surgery = _.sample(lists.surgery);

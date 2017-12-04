@@ -39,11 +39,13 @@ function drawCards() {
   turnIndex++;
 
   var cardTypes = ['surgeon', 'job', 'event'];
-  var pickedTypes = _.clone(cardTypes);
+  var pickedTypes = ['surgeon', 'event'];
+  pickedTypes.push(_.sample(cardTypes));
 
   if (turnIndex % 10 == 0) pickedTypes.push('victory');
   else pickedTypes.push(_.sample(cardTypes));
 
+  pickedTypes = _.shuffle(pickedTypes);
   var cards = pickedTypes.map(type => Cards.generate(type));
   Data.cards = cards;
 
@@ -89,8 +91,8 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
   renderer.requestFrame();
 
   // Pay Rent
-  Data.money -= 50;
-  Money.renderChange(-50, 'rent');
+  Data.money -= 100;
+  Money.renderChange(-100, 'rent');
  
   if (Data.money <= 0) {
     modalDefeat.classList.add('show');

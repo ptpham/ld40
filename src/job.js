@@ -78,13 +78,13 @@ function generateMagazineJob() {
   let pay = 0;
 
   if (magazineType == 'Teen') {
-    pay = _.random(50, 500);
+    pay = _.random(500, 1500);
   } else if (magazineType == 'Gossip') {
-    pay = _.random(10, 150);
+    pay = _.random(100, 1000);
   } else if (magazineType == 'Fashion') {
-    pay = _.random(400, 1500);
+    pay = _.random(2000, 3500);
   } else if (magazineType == 'Home') {
-    pay = _.random(200, 600);
+    pay = _.random(1000, 2200);
   }
 
   let content = _.sample([
@@ -109,15 +109,12 @@ function generateAdJob() {
   ]);
 
   let pay = _.random(100, 600);
-  let constraint = { maxDaysToHeal: _.random(0, 4) };
-  if (Math.random() < 0.5) {
-    constraint.partName = _.sample(IDEAL_PART_NAMES);
-  }
+  let constraint = { maxDaysToHeal: _.random(0, 4), partName: _.sample(IDEAL_PART_NAMES) };
   return { pay, content, constraint };
 }
 
 function generateSketchyJob() {
-  let pay = _.random(5, 300);
+  let pay = _.random(5, 100);
 
   let diminuative = _.sample(['Honey', 'Babe']);
   let convention = _.sample(['Awesome Socks', 'Electronic Darts', 'Gilford Gaming']);
