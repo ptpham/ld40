@@ -3,23 +3,26 @@ let _ = require('lodash');
 let Data = require('./data');
 let Mesh = require('./mesh');
 
+let SIZE_GAP = 0.4;
+
 function generateIdealFace() {
   let partNames = _.shuffle(_.keys(Mesh.faceWeights));
   let constrainedParts = partNames.slice(0, _.random(3, 5));
 
   let normalShifts = {};
   for (let partName of constrainedParts) {
-    normalShifts[partName] = Math.random() - 0.5;
+    normalShifts[partName] = _.random(0, 1) ? SIZE_GAP : -SIZE_GAP;
   }
 
   return { normalShifts };
 }
 
 let IDEAL_FACE = generateIdealFace();
+let IDEAL_PART_NAMES = _.keys(IDEAL_FACE.normalShifts);
 
 function renderFaceConstraintText(constraint) {
-  let { maxDaysToHeal } = constraint;
-  let faceMessage;
+  let { partName, maxDaysToHeal } = constraint;
+  let faceMessage, partMessage;
 
   if (maxDaysToHeal == 0) {
     faceMessage = `We need a ${_.sample(['fresh', 'lovely', 'radiant'])} face.`;
@@ -27,27 +30,54 @@ function renderFaceConstraintText(constraint) {
     let adjective = _.sample(['reasonable', 'average', 'modest']);
     faceMessage = `We're just looking for a ${adjective}-looking person.`;
   } else if (maxDaysToHeal < 5) {
-    let adjective = _.sample(['road-kill', 'silly putty', 'tree bark']);
-    faceMessage = `We're open to a ${adjective} look`;
+    let adjective = _.sample(['roadkill', 'silly putty', 'tree bark']);
+    faceMessage = `We're open to a ${adjective} look.`;
   } else {
-    faceMessage = `You probably have a face.`;
+    faceMessage = `We want you if you have a face.`;
+  }
+
+  if (partName) {
+    let displayName = Mesh.partDisplayNameMap.get(partName);
+    let sizeAdjective;
+    
+    if (IDEAL_FACE.normalShifts[partName] > 0) {
+      sizeAdjective = _.sample(['huge', 'hefty', 'big', 'sizeable']);
+    } else {
+      sizeAdjective = _.sample(['small', 'discreet', 'compact', 'tiny']);
+    }
+
+    partMessage = `We're really looking for someone with a ${sizeAdjective} ${displayName}.`;
   }
 
   return `
     <p>${faceMessage}</p>
+    <p>${partMessage}</p>
   `;
 }
 
 function checkFaceConstraint(constraint) {
   let success = true;
   let message = 'Congratulations!';
+  let turn = _.sample(['On second thought... ', `We've changed our minds.`, `Actually...`]);
 
   if (Data.getTurnsTillFullyHealed() > constraint.maxDaysToHeal) {
-    message = _.sample([
-      `On second thought, we're getting someone else.`,
-      `We've changed out minds. Please leave.`
-    ]);
+    let rejection = _.sample([`We're getting someone else.`, `Please leave.`]);
+    message = turn + ' ' + rejection;
     success = false;
+  }
+
+  let { partName } = constraint;
+  if (success && partName) {
+    let displayName = Mesh.partDisplayNameMap.get(partName);
+    let delta = IDEAL_FACE.normalShifts[partName]
+      - _.get(Data, 'transform.normalShifts.' + partName, 0);
+    if (delta < SIZE_GAP/2)  {
+      message = `${turn} Your ${displayName} is too big for us.`;
+      success = false; 
+    } else if (delta > SIZE_GAP/2) {
+      message = `${turn} Your ${displayName} is too small for us.`;
+      success = false;
+    }
   }
 
   return { success, message };
@@ -77,7 +107,7 @@ function generateMagazineJob() {
      `
   ]);
 
-  let constraint = { maxDaysToHeal: _.random(0, 1) };
+  let constraint = { maxDaysToHeal: _.random(0, 1), partName: _.sample(IDEAL_PART_NAMES) };
   return { pay, content, constraint };
 }
 
@@ -93,7 +123,7 @@ function generateAdJob() {
   ]);
 
   let pay = _.random(100, 600);
-  let constraint = { maxDaysToHeal: _.random(0, 4) };
+  let constraint = { maxDaysToHeal: _.random(0, 4), partName: _.sample(IDEAL_PART_NAMES) };
   return { pay, content, constraint };
 }
 
@@ -115,7 +145,7 @@ function generateSketchyJob() {
     `
   ]);
 
-  let constraint = { maxDaysToHeal: _.random(0, 10) };
+  let constraint = { maxDaysToHeal: _.random(0, 10), partName: _.sample(IDEAL_PART_NAMES) };
   return { pay, content, constraint };
 }
 
