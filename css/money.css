@@ -1,19 +1,58 @@
 
 #money {
   position: absolute;
-  top: 0;
-  right: 0;
-  padding: 50px;
+  top: 50px;
+  right: 50px;
   color: white;
+  background: rgba(0, 133, 150, 0.87);
+  box-shadow: 0px 0px 8px 0px black;
+  border: 2px solid #8ad1d2;
+  padding: 10px 10px 10px 8px;
+  border-radius: 4px;
+  color: white;
+  width: 120px;
+  text-align: right;
 }
 
 #money .amount {
   display: inline-block;
   line-height: 20px;
+  vertical-align: middle;
 }
 
 #money img {
   width: 20px;
   height: 20px;
+  vertical-align: middle;
+  float: left;
+}
+
+#money .change {
+  position: absolute;
+  z-index: 101;
+  right: 10px;
+  transition: all ease-out 800ms;
+}
+
+#money .change[data-sign="-1"] {
+  top: 100%;
+  opacity: 1;
+  color: #a85555;
+}
+
+#money .change.animate[data-sign="-1"] {
+  top: 150%;
+  opacity: 0;
+}
+
+#money .change[data-sign="1"] {
+  top: 150%;
+  opacity: 0;
+  color: #60806d;
+}
+
+#money .change.animate[data-sign="1"] {
+  top: 100%;
+  opacity: 1;
 }
 

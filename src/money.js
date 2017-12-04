@@ -16,7 +16,8 @@ function renderChange(change) {
   changeEl.classList.add('change');
   changeEl.setAttribute('data-sign', Math.sign(change));
   moneyContainer.appendChild(changeEl);
-  setTimeout(() => changeEl.remove(), 400);
+  setTimeout(() => changeEl.classList.add('animate'), 1);
+  setTimeout(() => changeEl.remove(), 800);
 }
 
 module.exports = {

@@ -25,7 +25,7 @@ function render(card) {
   var s = cardNode.querySelector.bind(cardNode);
   s('.card').setAttribute('data-key', card.key);
   s('.card').setAttribute('data-sign', Math.sign(card.money));
-  if (card.type === 'surgeon' && card.money > Data.money) {
+  if (Data.money + card.money < 0) {
     s('.card').classList.add('disabled');
   }
   s('.card').classList.add(card.type);
