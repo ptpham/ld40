@@ -5,7 +5,7 @@ var Data = require('./data');
 var { HEAL_PER_TURN } = Data;
 
 var surgeries = {
-  'upper lip injections': (skill, heal) => {
+  'upper lip injection': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
@@ -17,11 +17,35 @@ var surgeries = {
       },
     };
   },
-  'lower lip injections': (skill, heal) => {
+  'upper lip reductions': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        upper_lip_center: -0.1 + _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        upper_lip_center: heal * HEAL_PER_TURN, 
+        lower_lip_center: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'lower lip injection': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
         lower_lip_center: 0.1 + _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        lower_lip_center: heal * HEAL_PER_TURN, 
+        upper_lip_center: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'lower lip reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        lower_lip_center: -0.1 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         lower_lip_center: heal * HEAL_PER_TURN, 
@@ -44,7 +68,39 @@ var surgeries = {
       },
     };
   },
-  'nose bridge adjustment': (skill, heal) => {
+  'cheek injection': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        upper_cheek_left: 0.1 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_right: 0.1 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_left: 0.1 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_right: 0.1 + _.random(0, 0.05 * jitter, true),
+        under_eyes: _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        upper_cheek_left: heal * HEAL_PER_TURN,
+        upper_cheek_right: heal * HEAL_PER_TURN,
+        lower_cheek_left: heal * HEAL_PER_TURN,
+        lower_cheek_right: heal * HEAL_PER_TURN,
+        under_eyes: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'nose bridge injection': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_bridge: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_bridge: heal * HEAL_PER_TURN,
+        nose_tip: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'nose bridge reduction': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
@@ -53,10 +109,65 @@ var surgeries = {
       },
       injuryValues: {
         nose_bridge: heal * HEAL_PER_TURN,
+        nose_tip: jitter * HEAL_PER_TURN,
       },
     };
   },
-  'brow injections': (skill, heal) => {
+  'nose tip injection': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_tip: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_tip: heal * HEAL_PER_TURN,
+        nose_bridge: jitter * HEAL_PER_TURN,
+        nose_nostrils: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'nose tip reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_tip: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_tip: heal * HEAL_PER_TURN,
+        nose_bridge: jitter * HEAL_PER_TURN,
+        nose_nostrils: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'nostril enlargement': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_nostrils: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_nostrils: heal * HEAL_PER_TURN,
+        nose_tip: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'nostril reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        nose_nostrils: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        nose_nostrils: heal * HEAL_PER_TURN,
+        nose_tip: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'brow injection': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
@@ -66,6 +177,101 @@ var surgeries = {
       injuryValues: {
         brow_left: heal * HEAL_PER_TURN,
         brow_right: heal * HEAL_PER_TURN,
+      },
+    };
+  },
+  'brow reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        brow_left: -0.1 + _.random(0, 0.05 * jitter, true),
+        brow_right: -0.1 + _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        brow_left: heal * HEAL_PER_TURN,
+        brow_right: heal * HEAL_PER_TURN,
+      },
+    };
+  },
+  'eye enlargement': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        eye_lids: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        eye_lids: heal * HEAL_PER_TURN,
+        under_eyes: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'eye reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        eye_lids: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        eye_lids: heal * HEAL_PER_TURN,
+        under_eyes: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'jaw enlargement': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        jaw_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        jaw_right: heal * HEAL_PER_TURN,
+        jaw_left: heal * HEAL_PER_TURN,
+      },
+    };
+  },
+  'jaw reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        jaw_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        jaw_right: heal * HEAL_PER_TURN,
+        jaw_left: heal * HEAL_PER_TURN,
+      },
+    };
+  },
+  'chin injection': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        chin_center: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        chin_center: heal * HEAL_PER_TURN,
+        jaw_left: jitter * HEAL_PER_TURN,
+        jaw_right: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'chin reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        chin_center: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        chin_center: heal * HEAL_PER_TURN,
+        jaw_left: jitter * HEAL_PER_TURN,
+        jaw_right: jitter * HEAL_PER_TURN,
       },
     };
   },
