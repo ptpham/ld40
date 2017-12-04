@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="css/cards.css">
 <link rel="stylesheet" type="text/css" href="css/health.css">
 <link rel="stylesheet" type="text/css" href="css/money.css">
+<link rel="stylesheet" type="text/css" href="css/modal.css">
 <style>
 html, body {
   margin: 0px;
@@ -28,6 +29,20 @@ canvas { height: 100%; width: 100%; }
   <div id="money">
     <img src="assets/coin.svg" />
     <div class="amount"></div>
+  </div>
+
+  <div class="modal-container">
+    <div class="modal">
+      <h1><span class="victory">Dream</span> Achieved</h1>
+      <div class="info">You've been crowned <b class="victory">Woman of the Year</b>! All those times going under the knife was totally worth it!</div>
+    </div>
+  </div>
+
+  <div class="modal-container">
+    <div class="modal">
+      <h1>A Waking <span class="defeat">Nightmare</span></h1>
+      <div class="info">You are destitute and will forever carry the painful <b class="defeat">scars</b> of your mistakes.</div>
+    </div>
   </div>
 
   <template id="card-template">
