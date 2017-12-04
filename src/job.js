@@ -149,8 +149,10 @@ function perform(job) {
   if (check.success) {
     Data.money += job.pay;
     Money.renderChange(job.pay);
+    moneyAudio.play();
     return `You made <strong>${job.pay} dollars</strong>!`;
   } else {
+    window[`ugh${_.random(0,2)}Audio`].play();
     return check.message;
   }
 }

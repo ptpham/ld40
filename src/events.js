@@ -106,6 +106,7 @@ function generate() {
 }
 
 function perform(event) {
+  cardAudio.play();
   var response = `You ${event.text}.`;
   var accident = event.risk && Math.random() < event.chance;
   if (accident) {
