@@ -87,3 +87,9 @@
   height: 30px;
 }
 
+.tag.neutral {
+  border: 1px solid dimgray;
+  background: white;
+  color: black;
+}
+

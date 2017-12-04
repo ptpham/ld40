@@ -67,21 +67,35 @@ class Manager {
     this.aggregationAverages = aggregationAverages;
     this.cameraMat = mat4.create();
     this.renderer = renderer;
-    this.show = true;
+    this.show = false;
 
     document.body.addEventListener('render', () => this.layout());
     document.body.addEventListener('keydown', e => {
       if (e.key == ' ') {
-        this.show ^= 1; 
+        this.show = true;
         this.layout();
       }
     });
+
+    document.body.addEventListener('keyup', e => {
+      if (e.key == ' ') {
+        this.show = false;
+        this.layout();
+      }
+    });
+
   }
 
   layout() {
     let { renderer, cameraMat, aggregationAverages } = this;
     let { canvas: { width, height }, aspect } = renderer;
     mat4.multiply(cameraMat, renderer.projection, renderer.view);
+
+    if (this.show) {
+      healthIsShowing.classList.add('show'); 
+    } else {
+      healthIsShowing.classList.remove('show');
+    }
 
     let pending = [];
     let removing = [];

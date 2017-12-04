@@ -31,3 +31,30 @@
   background: none;
 }
 
+#healthIsShowing {
+  display: flex;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  opacity: 0;
+  position: absolute;
+  top: 150px;
+  right: 50px;
+  color: white;
+  background: rgba(0, 133, 150, 0.87);
+  box-shadow: 0px 0px 8px 0px black;
+  border: 2px solid #8ad1d2;
+  padding: 10px 10px 10px 8px;
+  border-radius: 4px;
+  color: white;
+  width: 200px;
+  text-align: right;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+#healthIsShowing.show {
+  opacity: 1;
+}
+
