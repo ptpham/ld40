@@ -54,38 +54,7 @@ var surgeries = {
       },
     };
   },
-  'under eye enlargement': (skill, heal) => {
-    var jitter = _.random(0, 2 - skill);
-    return {
-      normalShifts: {
-        under_eyes: 0.1 + _.random(0, 0.05 * jitter, true),
-        upper_cheek_right: _.random(0, 0.05 * jitter, true),
-        upper_cheek_left: _.random(0, 0.05 * jitter, true),
-      },
-      injuryValues: {
-        under_eyes: heal * HEAL_PER_TURN,
-        upper_cheek_right: jitter * HEAL_PER_TURN,
-        upper_cheek_left: jitter * HEAL_PER_TURN,
-      },
-    };
-  },
-  'under eye reduction': (skill, heal) => {
-    var jitter = _.random(0, 2 - skill);
-    return {
-      normalShifts: {
-        under_eyes: -0.1 + _.random(0, 0.05 * jitter, true),
-        upper_cheek_right: _.random(0, 0.05 * jitter, true),
-        upper_cheek_left: _.random(0, 0.05 * jitter, true),
-      },
-      injuryValues: {
-        under_eyes: heal * HEAL_PER_TURN,
-        upper_cheek_right: jitter * HEAL_PER_TURN,
-        upper_cheek_left: jitter * HEAL_PER_TURN,
-      },
-    };
-  },
   'cheek lift': (skill, heal) => {
-
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
@@ -504,9 +473,6 @@ function mergeTransform(params) {
       Data.transform[param][key] = Data.transform[param][key] || 0;
       Data.transform[param][key] += params[param][key];
     }
-  }
-  if (Data.transform.normalShifts.under_eye) {
-    Data.transform.normalShifts.under_eye = Math.max(Data.transform.normalShifts.under_eye, -0.1);
   }
   return Data.transform;
 }

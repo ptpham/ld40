@@ -7,7 +7,10 @@ let Mesh = require('./mesh');
 let SIZE_GAP = 0.4;
 
 function generateIdealFace() {
-  let partNames = _.shuffle(_.keys(Mesh.faceWeights));
+  let faceParts = _.keys(Mesh.faceWeights);
+  faceParts = _.filter(faceParts, (part) => part !== 'under_eyes');
+
+  let partNames = _.shuffle(faceParts);
   let constrainedParts = partNames.slice(0, _.random(3, 5));
 
   let normalShifts = {};
