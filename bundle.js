@@ -44,7 +44,6 @@ function drawCards() {
     Cards.generate(),
     Cards.generate(),
   );
-  console.log('Drawing Cards');
 
   Cards.unflip();
   Cards.reset();
@@ -91,7 +90,10 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
   Data.money -= 50;
   Money.renderChange(-50, 'rent');
  
-  if (Data.money <= 0) modalDefeat.classList.add('show');
+  if (Data.money <= 0) {
+    modalDefeat.classList.add('show');
+    setTimeout(() => Cards.reset(), 1000);
+  }  
   Money.render();
 });
 
