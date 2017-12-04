@@ -10,9 +10,11 @@ html, body {
   margin: 0px;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: hidden;
   font-family: sans-serif;
   font-weight: lighter;
+  min-width: 1080px;
+  position: relative;
 }
 
 canvas { height: 100%; width: 100%; }
@@ -32,6 +34,7 @@ canvas { height: 100%; width: 100%; }
         <div class="money"></div>
       </div>
       <div class="back">
+        <div class="type"></div>
         <p></p>
         <div class="subtext">
           Click To Continue

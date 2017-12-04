@@ -409,18 +409,24 @@ var lists = {
     '-1': [
       (s) => `
         <p>
-          Yo, you need ${s.surgery}?! <br />
-          We got some just for you! <br />
-          Come visit ${s.name} at ${s.office}!
+          Yo, you need <b>${s.surgery}</b>?!
+        </p>
+        <p>
+          We got some just for you!
+        </p>
+        <p>
+          Come visit <b>${s.name}</b> at ${s.office}!
         </p>
       `,
     ],
     '0': [
       (s) => `
-        <name>${s.name}</name>
-        <address>${s.office}</address>
+        <b>${s.name}</b>
         <p>
-          Need a ${s.surgery}?
+          <i>${s.office}</i>
+        </p>
+        <p>
+          Need <b>${s.surgery}</b>?
           <br />
           We're offerring specials for ${s.cost}.
         </p>
@@ -428,12 +434,16 @@ var lists = {
     ],
     '1': [
       (s) => `
-        <name>${s.name}</name>
-        <address>${s.office}</address>
-        <school>${s.school}</school>
+        <b>${s.name}</b>
+        <p>
+          <i>${s.office}</i>
+          <i>${s.school}</i>
+        </p>
         <p>
          We believe in bringing out the best in you!
-         Today only, we're offering ${s.surgery} for ${s.cost}.
+        </p>
+        <p>
+         Today only, we're offering <b>${s.surgery}</b> for ${s.cost}.
         </p>
       `
     ],
@@ -476,7 +486,7 @@ function generate() {
 
 function perform(surgeon) {
   mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
-  return `${surgeon.name} performed the ${surgeon.surgery}.
+  return `${surgeon.name} performed the <b>${surgeon.surgery}</b>. <br /><br />
      ${surgeon.heal > 1 ? 'You may need a few days to heal...' : 'You feel pretty good!'}`;
 }
 

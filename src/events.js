@@ -83,17 +83,18 @@ var friends = [
 var templates = [
   (event) => `
     <p>You got a text from a friend:</p>
-    <strong>${_.sample(friends)}:</strong> 
-    <message>Do you want to ${event.text}?
-    I'm planning to go today and was wondering if you wanted to come with.
-    </message>`,
-  (event) => `
     <p>
-      You feel like you want to ${event.text}.
+      <strong>${_.sample(friends)}:</strong><br />
+      Do you want to <b>${event.text}</b>?
+      I'm planning to do that today and was wondering if you wanted to join.
     </p>`,
   (event) => `
     <p>
-      ${_.sample(friends)} invited you to ${event.text}.
+      You feel like you want to <b>${event.text}</b>.
+    </p>`,
+  (event) => `
+    <p>
+      ${_.sample(friends)} invited you to <b>${event.text}</b>.
     </p>`,
 
 ];

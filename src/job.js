@@ -39,14 +39,13 @@ function renderFaceConstraintText(constraint) {
   if (partName) {
     let displayName = Mesh.partDisplayNameMap.get(partName);
     let sizeAdjective;
-    
     if (IDEAL_FACE.normalShifts[partName] > 0) {
       sizeAdjective = _.sample(['huge', 'hefty', 'big', 'sizeable']);
     } else {
       sizeAdjective = _.sample(['small', 'discreet', 'compact', 'tiny']);
     }
 
-    partMessage = `We're really looking for someone with a ${sizeAdjective} ${displayName}.`;
+    partMessage = `We're really looking for someone with a <b>${sizeAdjective} ${displayName}</b>.`;
   }
 
   return `
@@ -72,10 +71,10 @@ function checkFaceConstraint(constraint) {
     let delta = IDEAL_FACE.normalShifts[partName]
       - _.get(Data, 'transform.normalShifts.' + partName, 0);
     if (delta < SIZE_GAP/2)  {
-      message = `${turn} Your ${displayName} is too big for us.`;
+      message = `${turn} <b>Your ${displayName} is too big for us.</b>`;
       success = false; 
     } else if (delta > SIZE_GAP/2) {
-      message = `${turn} Your ${displayName} is too small for us.`;
+      message = `${turn} <b>Your ${displayName} is too small for us.</b>`;
       success = false;
     }
   }
@@ -103,7 +102,7 @@ function generateMagazineJob() {
 
   let content = _.sample([
      `
-      <p>We've got a job for an ad in ${magazineType} Magazine for you!</p>
+      <p>We've got a job for an ad in <b>${magazineType} Magazine</b> for you!</p>
      `
   ]);
 
@@ -118,7 +117,7 @@ function generateAdJob() {
   let content = _.sample([
     `
       <p>We have a new product for ${gerund} your ${noun}
-        and we want you to be our TV spokesperson!</p>
+        and we want you to be our <b>TV spokesperson</b>!</p>
     `,
   ]);
 
@@ -135,13 +134,13 @@ function generateSketchyJob() {
 
   let content = _.sample([
     `
-      <p>Looking for an easy gig? I got ${pay} dollars with your name on it.</p>
+      <p>Looking for an <b>easy gig</b>? I got <b>${pay} dollars</b> with your name on it.</p>
     `,
     `
-      <p>${diminuative}, with a face like that you'd make a killing at Woofers.</p>
+      <p>${diminuative}, with a face like that you'd make a killing at <b>Woofers</b>.</p>
     `,
     `
-      <p>${diminuative}, I got a booth at the ${convention} Convention that you'd look great next to.</p>
+      <p>${diminuative}, I got a <b>booth at the ${convention} Convention</b> that you'd look great next to.</p>
     `
   ]);
 
@@ -151,7 +150,7 @@ function generateSketchyJob() {
 
 function generateVictoryJob() {
   let content = `
-    <p>You've been nominated as Supreme Beauty's Woman of the Year!</p> 
+    <p><strong>You've been nominated as Supreme Beauty's Woman of the Year!</strong></p> 
   `;
   return { pay: 10000, content, isVictory: true };
 }
@@ -165,7 +164,7 @@ function perform(job) {
   let check = checkFaceConstraint(job.constraint);
   if (check.success) {
     Data.money += job.pay;
-    return `You made ${job.pay} dollars!`;
+    return `You made <strong>${job.pay} dollars</strong>!`;
   } else {
     return check.message;
   }

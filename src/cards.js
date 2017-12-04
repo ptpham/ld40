@@ -30,7 +30,8 @@ function render(card) {
   }
   s('.card').classList.add(card.type);
 
-  s('.type').innerText = card.type;
+  s('.front .type').innerText = card.type;
+  s('.back .type').innerText = card.type;
   s('.flavor').innerHTML = card.flavor;
   s('.money').innerText = card.money;
 

@@ -1,8 +1,9 @@
+
 #cards {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 300px;
-  width: 180px;
+  bottom: 0; right: 250px;
+  height: 280px;
+  width: 200px;
   margin: auto;
   z-index: 100;
 }
@@ -15,8 +16,8 @@
 
 
 .card {
-  width: 180px;
-  height: 240px;
+  width: 200px;
+  height: 280px;
   position: absolute;
   bottom: 75px;
   cursor: pointer;
@@ -95,6 +96,9 @@
 }
 .card .type {
   top: 0; left: 0;
+  font-weight: 400;
+  font-variant: small-caps;
+  font-size: 1.2em;
   border-radius: 5px 5px 0 0;
 }
 .card.surgeon .type {
@@ -128,16 +132,56 @@
   text-transform: lowercase;
 }
 
-.card.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
 
 .card *::selection {
   background: none;
 }
 
+.card .flavor > p:first-of-type {
+  margin-top: 0;
+}
+
 .card .back > p {
   margin: 0;
+  padding-top: 25px;
+}
+
+.card b {
+  font-weight: 500;
+}
+
+.card.surgeon strong,
+.card.surgeon b {
+  color: #a85555;
+}
+
+.card.event strong,
+.card.event b {
+  color: #60806d;
+}
+
+.card.job strong,
+.card.job b {
+  color: #4e6f91;
+}
+
+.card i {
+  font-size: 0.9em;
+  display: block;
+  font-style: normal;
+  color: #666;
+}
+
+.card.disabled {
+  pointer-events: none;
+}
+.card.disabled .front,
+.card.disabled .back {
+  background: #cfcfcf;
+  color: #444;
+}
+.card.disabled .type {
+  background: #afafaf;
+  color: #666;
 }
 
