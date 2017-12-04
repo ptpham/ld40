@@ -11,10 +11,12 @@ function derefCells(array, cells) {
 function createGeometryFromObj(gl, obj) {
   let positions = derefCells(obj.positions, obj.cells);
   let normals = derefCells(obj.vertexNormals, obj.faceNormals);
+  let texcoords = derefCells(obj.vertexUVs, obj.faceUVs).map(x => [x[0], x[1], 0]);
   let shifts = _.times(positions.length, i => vec3.create());
   return createGeometry(gl)
     .attr('position', positions)
     .attr('normal', normals)
+    .attr('texcoord', texcoords)
     .attr('shift', shifts);
 }
 

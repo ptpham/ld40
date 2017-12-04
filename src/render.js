@@ -83,15 +83,16 @@ function canvasProjection(projection, canvas) {
 
 function createDefaultShader(gl) {
   let vs = `
-    attribute vec3 position, normal, shift;
+    attribute vec3 position, normal, shift, texcoord;
 
     uniform mat4 projection, view;
-    varying vec3 v_position, v_normal, v_shift;
+    varying vec3 v_position, v_normal, v_shift, v_texcoord;
 
     void main() {
       vec3 displaced = position + shift.z*normal;
       gl_Position = projection*view*vec4(displaced, 1.0);
       v_position = gl_Position.xyz;
+      v_texcoord = texcoord;
       v_normal = normal;
       v_shift = shift;
     }
@@ -99,18 +100,22 @@ function createDefaultShader(gl) {
 
   let fs = `
     precision mediump float;
-    varying vec3 v_position, v_normal, v_shift;
+    varying vec3 v_position, v_normal, v_shift, v_texcoord;
 
     uniform vec3 lightPosition0, lightPosition1;
     uniform vec4 diffuseColor, ambientColor, specularColor, injuryColor;
+    uniform sampler2D texture;
 
     void main() {
       vec3 lightDiff0 = normalize(lightPosition0 - v_position);
       vec3 lightDiff1 = normalize(lightPosition1 - v_position);
+
+      vec4 sample = texture2D(texture, v_texcoord.xy);
+      vec4 diffuseUse = vec4(((1.0 - sample[3])*diffuseColor + sample[3]*sample).xyz, 1.0);
       float lightDot = clamp(max(dot(lightDiff0, v_normal), dot(lightDiff1, v_normal)), 0.0, 1.0);
       float ambientWeight = 1.0 - lightDot;
       float weightSum = 1.0 + ambientWeight + lightDot;
-      vec4 litColor = (diffuseColor + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
+      vec4 litColor = (diffuseUse + lightDot*specularColor + ambientWeight*ambientColor)/weightSum;
       gl_FragColor = (1.0 - v_shift.x)*litColor + v_shift.x*injuryColor;
     }
   `;
@@ -257,6 +262,7 @@ class Face extends Default {
     this.cityTexture = createTexture(this.gl, cityImage);
     this.backgroundShader = createBackgroundShader(this.gl);
     this.backgroundGeometry = createBackgroundGeometry(this.gl);
+    this.featuresTexture = createTexture(this.gl, featuresImage);
 
     this.hairOptions = {
       ambientColor: this.hairAmbientColor,
@@ -309,6 +315,7 @@ class Face extends Default {
     this.backgroundGeometry.bind(this.backgroundShader);
     this.backgroundShader.uniforms.projection = this.projection;
     this.backgroundShader.uniforms.view = this.view;
+    this.backgroundShader.uniforms.texture = this.cityTexture.bind();
     this.backgroundGeometry.draw();
 
     let aspect = Math.max((2/3)*width/height, 1.1);
@@ -316,6 +323,8 @@ class Face extends Default {
     this.gl.viewport(0, 0, Math.floor(aspect*height), height);
     this.aspect = aspect;
 
+    this.faceGeometry.bind(this.shader);
+    this.shader.uniforms.texture = this.featuresTexture.bind();
     for (let geometry of this.geometry) {
       let options = geometry != this.faceGeometry ? this.hairOptions : undefined;
       this.draw(geometry, options);

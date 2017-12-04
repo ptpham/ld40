@@ -28,7 +28,10 @@ var listeners = Control.createTurntableListeners(renderer);
 Control.addListeners(window, listeners);
 
 renderer.installFace(Mesh.face, Mesh.faceWeights);
-renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
+
+var ponytailGeometry = Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail);
+ponytailGeometry.attr('texcoord', _.times(3*Mesh.ponytail.cells.length, x => vec3.create()));
+renderer.geometry.push(ponytailGeometry);
 renderer.requestFrame();
 
 let turnIndex = 0;
