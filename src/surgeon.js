@@ -486,6 +486,9 @@ function generate() {
 }
 
 function perform(surgeon) {
+  // Shouldn't encounter this state, but just in case.
+  if (Data.money < surgeon.cost) return 'You could not afford the procedure.';
+
   mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
   Data.money -= surgeon.cost;
   Money.renderChange(-surgeon.cost);

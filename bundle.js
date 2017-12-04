@@ -80,11 +80,9 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
   }
 
   var card = e.detail;
-  if (Data.money + card.money > 0) {
-    let cardBack = Cards.cardTypes[card.type].perform(card.attributes);
-    Cards.renderBack(card, cardBack);
-    Cards.flip(card);
-  }
+  let cardBack = Cards.cardTypes[card.type].perform(card.attributes);
+  Cards.renderBack(card, cardBack);
+  Cards.flip(card);
 
   renderer.applyFaceParameters(Data.transform);
   renderer.requestFrame();

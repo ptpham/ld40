@@ -25,7 +25,7 @@ function render(card) {
   var s = cardNode.querySelector.bind(cardNode);
   s('.card').setAttribute('data-key', card.key);
   s('.card').setAttribute('data-sign', Math.sign(card.money));
-  if (Data.money + card.money < 0) {
+  if (card.type === 'surgeon' && card.money > Data.money) {
     s('.card').classList.add('disabled');
   }
   s('.card').classList.add(card.type);
@@ -33,7 +33,7 @@ function render(card) {
   s('.front .type').innerText = card.type;
   s('.back .type').innerText = card.type;
   s('.flavor').innerHTML = card.flavor;
-  s('.money').innerText = card.money;
+  s('.amount').innerText = card.money;
 
   cardContainer.appendChild(cardNode);
 }
