@@ -275,6 +275,70 @@ var surgeries = {
       },
     };
   },
+  'upper ear enlargement': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        upper_ear_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        upper_ear_left: heal * HEAL_PER_TURN,
+        upper_ear_right: heal * HEAL_PER_TURN,
+        ear_lobe_left: jitter * HEAL_PER_TURN,
+        ear_lobe_right: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'upper ear reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        upper_ear_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        upper_ear_left: heal * HEAL_PER_TURN,
+        upper_ear_right: heal * HEAL_PER_TURN,
+        ear_lobe_left: jitter * HEAL_PER_TURN,
+        ear_lobe_right: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'ear lobe enlargement': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        ear_lobe_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        ear_lobe_left: heal * HEAL_PER_TURN,
+        ear_lobe_right: heal * HEAL_PER_TURN,
+        upper_ear_left: jitter * HEAL_PER_TURN,
+        upper_ear_right: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'ear lobe reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
+    return {
+      normalShifts: {
+        ear_lobe_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+      },
+      injuryValues: {
+        ear_lobe_left: heal * HEAL_PER_TURN,
+        ear_lobe_right: heal * HEAL_PER_TURN,
+        upper_ear_left: jitter * HEAL_PER_TURN,
+        upper_eat_right: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
 };
 
 var lists = {
