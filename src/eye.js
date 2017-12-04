@@ -72,11 +72,38 @@ class Pair {
       .faces(sphere.cells);
     this.shader = createShader(this.gl, eyeVS, eyeFS);
     this.irisColor = vec4.fromValues(0.3, 0.2, 0.1, 1);
-    this.lookAt = vec3.fromValues(0, 0, -10);
+
+    this.lookAtRadius = 100;
+    this.lookAt = vec3.fromValues(0, 0, -this.lookAtRadius);
     this.scale = _.times(3, () => 0.35);
     this.world = mat4.create();
     this.right = right;
     this.left = left;
+    this.lookAtAngle = 0;
+     
+    this._changeGaze();
+    this._saccade();
+  }
+
+  _changeGaze() {
+    this.lookAtAngle = Math.PI*(Math.random() - 0.5)/3;
+    this._updateLookAt();
+    setTimeout(()=> this._changeGaze(), _.random(2000, 5000));
+  }
+
+  _saccade() {
+    let adjustment = Math.PI*(Math.random()-0.5)/32;
+    this.lookAtAngle += adjustment;
+    this._updateLookAt();
+    setTimeout(()=> this._changeGaze(), _.random(10, 200));
+  }
+
+  _updateLookAt() {
+    let { lookAtAngle, lookAtRadius, faceRenderer } = this;
+    let x = lookAtRadius*Math.sin(lookAtAngle);
+    let z = -lookAtRadius*Math.cos(lookAtAngle);
+    vec3.set(this.lookAt, x, 0, z);
+    faceRenderer.requestFrame();
   }
 
   draw() {
