@@ -127,7 +127,10 @@ function generateAdJob() {
   ]);
 
   let pay = _.random(100, 600);
-  let constraint = { maxDaysToHeal: _.random(0, 4), partName: _.sample(IDEAL_PART_NAMES) };
+  let constraint = { maxDaysToHeal: _.random(0, 4) };
+  if (Math.random() < 0.5) {
+    constraint.partName = _.sample(IDEAL_PART_NAMES);
+  }
   return { pay, content, constraint };
 }
 
@@ -149,7 +152,7 @@ function generateSketchyJob() {
     `
   ]);
 
-  let constraint = { maxDaysToHeal: _.random(0, 10), partName: _.sample(IDEAL_PART_NAMES) };
+  let constraint = { maxDaysToHeal: _.random(0, 10) };
   return { pay, content, constraint };
 }
 
