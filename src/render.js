@@ -34,6 +34,33 @@ const skinColors = [
   },
 ];
 
+const hairColors = [
+  // Blonde
+  {
+    hairAmbientColor: vec4.fromValues(0.2,0.1,0.1,1),
+    hairSpecularColor: vec4.fromValues(1, 1, 1,1),
+    hairDiffuseColor: vec4.fromValues(1.00, 0.83, 0.32, 1.00),
+  },
+  // Platinum
+  {
+    hairAmbientColor: vec4.fromValues(0.16, 0.14, 0.09, 1.00),
+    hairSpecularColor: vec4.fromValues(1, 1, 1, 1.00),
+    hairDiffuseColor: vec4.fromValues(1, 0.95, 0.8, 1.00),
+  },
+  // Brown
+  {
+    hairAmbientColor: vec4.fromValues(0, 0, 0, 1.00),
+    hairSpecularColor: vec4.fromValues(0.60, 0.28, 0.17, 1.00),
+    hairDiffuseColor: vec4.fromValues(0.46, 0.21, 0.13, 1.00),
+  },
+  // Black
+  {
+    hairAmbientColor: vec4.fromValues(0, 0, 0, 1.00),
+    hairSpecularColor: vec4.fromValues(0.4, 0.2, 0.1, 1.00),
+    hairDiffuseColor: vec4.fromValues(0.2, 0.15, 0.07, 1.00),
+  },
+];
+
 function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
@@ -159,10 +186,9 @@ class Face extends Default {
   constructor(canvas) {
     super(canvas);
     var skinColor = _.sample(skinColors);
+    var hairColor = _.sample(hairColors);
     Object.assign(this, skinColor);
-    this.hairAmbientColor = vec4.fromValues(0.3,0.1,0.3,1);
-    this.hairSpecularColor = vec4.fromValues(1,0.8,0.4,1);
-    this.hairDiffuseColor = vec4.fromValues(0.4,0.3,0.2,1);
+    Object.assign(this, hairColor);
     this.eyePair = new Eye.Pair(this,
       vec3.fromValues(-0.85, 0.9, 3.4),
       vec3.fromValues(0.85, 0.9, 3.4));
@@ -216,7 +242,7 @@ class Face extends Default {
     let hairOptions = {
       ambientColor: this.hairAmbientColor,
       specularColor: this.hairSpecularColor,
-      diffuseColor: this.diffuseColor
+      diffuseColor: this.hairDiffuseColor
     };
 
     for (let geometry of this.geometry) {
