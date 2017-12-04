@@ -31,19 +31,18 @@ renderer.installFace(Mesh.face, Mesh.faceWeights);
 renderer.geometry.push(Setup.createGeometryFromObj(renderer.gl, Mesh.ponytail));
 renderer.requestFrame();
 
-
+let turnIndex = 0;
 function drawCards() {
-  var cardTypes = ['surgeon', 'job', 'event', 'victory'];
+  turnIndex++;
 
-  // Show at least 2 kinds of cards per turn
-  var pickedTypes = _.sampleSize(cardTypes, 2);
+  var cardTypes = ['surgeon', 'job', 'event'];
+  var pickedTypes = _.clone(cardTypes);
+
+  if (turnIndex % 10 == 0) pickedTypes.push('victory');
+  else pickedTypes.push(_.sample(cardTypes));
+
   var cards = pickedTypes.map(type => Cards.generate(type));
-  Data.cards = [];
   Data.cards = cards;
-  Data.cards.push(
-    Cards.generate(),
-    Cards.generate(),
-  );
 
   Cards.unflip();
   Cards.reset();
