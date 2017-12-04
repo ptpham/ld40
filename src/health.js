@@ -15,15 +15,25 @@ function getTurnsToHeal(partName) {
 
 let aggregations = new Multimap([
   ['Nose', 'nose_bridge'],
+  ['Nose', 'nose_nostrils'],
+  ['Nose', 'nose_tip'],
   ['Upper Lip', 'upper_lip_center'],
   ['Lower Lip', 'lower_lip_center'],
   ['Left Ear', 'upper_ear_left'],
+  ['Left Ear', 'ear_lobe_left'],
   ['Right Ear', 'upper_ear_right'],
-  ['Under Eyes', 'under_eyes'],
+  ['Right Ear', 'ear_lobe_right'],
+  ['Eyes', 'under_eyes'],
+  ['Eyes', 'eye_lids'],
   ['Left Cheek', 'upper_cheek_left'],
+  ['Left Cheek', 'lower_cheek_left'],
   ['Right Cheek', 'upper_cheek_right'],
+  ['Right Cheek', 'upper_cheek_left'],
   ['Left Brow', 'brow_left'],
-  ['Right Brow', 'brow_right']
+  ['Right Brow', 'brow_right'],
+  ['Chin', 'chin_center'],
+  ['Left Jaw', 'jaw_left'],
+  ['Right Jaw', 'jaw_right'],
 ]);
 
 function makeHealthNode(name) {
