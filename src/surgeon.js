@@ -85,6 +85,7 @@ var surgeries = {
     };
   },
   'cheek lift': (skill, heal) => {
+
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
@@ -503,6 +504,9 @@ function mergeTransform(params) {
       Data.transform[param][key] = Data.transform[param][key] || 0;
       Data.transform[param][key] += params[param][key];
     }
+  }
+  if (Data.transform.normalShifts.under_eye) {
+    Data.transform.normalShifts.under_eye = Math.max(Data.transform.normalShifts.under_eye, -0.1);
   }
   return Data.transform;
 }
