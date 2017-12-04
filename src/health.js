@@ -80,7 +80,7 @@ class Manager {
 
   layout() {
     let { renderer, cameraMat, aggregationAverages } = this;
-    let { canvas: { width, height } } = renderer;
+    let { canvas: { width, height }, aspect } = renderer;
     mat4.multiply(cameraMat, renderer.projection, renderer.view);
 
     let pending = [];
@@ -94,7 +94,7 @@ class Manager {
 
       let worldPoint = aggregationAverages[aggregation];
       let screenPoint = vec3.transformMat4(vec3.create(), worldPoint, cameraMat);
-      let x = (screenPoint[0]+1)*width/2;
+      let x = (screenPoint[0]+1)*height*aspect/2;
       let y = (-screenPoint[1]+1)*height/2;
       pending.push({ name: aggregation, x, y, z: -screenPoint[2], turns });
     }

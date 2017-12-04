@@ -177,6 +177,7 @@ class Face extends Default {
     let aspect = Math.max((2/3)*width/height, 1.2);
     mat4.perspective(this.projection, Math.PI/4, aspect, 1, 100);
     this.gl.viewport(0, 0, Math.floor(aspect*height), height);
+    this.aspect = aspect;
 
     let hairOptions = {
       ambientColor: this.hairAmbientColor,
@@ -188,6 +189,7 @@ class Face extends Default {
       let options = geometry != this.faceGeometry ? hairOptions : undefined;
       this.draw(geometry, options);
     }
+
     document.body.dispatchEvent(new CustomEvent('render'));
   }
 }
