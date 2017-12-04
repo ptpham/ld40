@@ -27,7 +27,7 @@ let IDEAL_PART_NAMES = _.keys(IDEAL_FACE.normalShifts);
 
 function renderFaceConstraintText(constraint) {
   let { partName, maxDaysToHeal } = constraint;
-  let faceMessage, partMessage;
+  let faceMessage, partMessage = '';
 
   if (maxDaysToHeal == 0) {
     faceMessage = `We need a ${_.sample(['fresh', 'lovely', 'radiant'])} face.`;
