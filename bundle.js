@@ -33,7 +33,7 @@ renderer.requestFrame();
 
 
 function drawCards() {
-  var cardTypes = ['surgeon', 'job', 'event'];
+  var cardTypes = ['surgeon', 'job', 'event', 'victory'];
 
   // Show at least 2 kinds of cards per turn
   var pickedTypes = _.sampleSize(cardTypes, 2);
@@ -92,8 +92,11 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
  
   if (Data.money <= 0) {
     modalDefeat.classList.add('show');
-    setTimeout(() => Cards.reset(), 1000);
   }  
   Money.render();
+});
+
+document.body.addEventListener('endGame', () => {
+  setTimeout(() => Cards.reset(), 500);
 });
 

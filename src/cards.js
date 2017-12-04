@@ -6,9 +6,10 @@ var cardContainer = document.getElementById('cards');
 var cardTemplate = document.getElementById('card-template');
 
 var cardTypes = {
+  victory: require('./victory'),
   surgeon: require('./surgeon'),
   event: require('./events'),
-  job: require('./job')
+  job: require('./job'),
 };
 
 function Card(type, money, template, attributes) {
@@ -41,7 +42,7 @@ function render(card) {
 function renderBack(card, message) {
   var cardEl = cardContainer.querySelector(`[data-key="${card.key}"]`);
   var s = cardEl.querySelector.bind(cardEl);
-  s('.back p').innerHTML = message;
+  s('.back .flavor').innerHTML = message;
 }
 
 function toggle(toggle) {

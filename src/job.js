@@ -3,29 +3,9 @@ let _ = require('lodash');
 let Data = require('./data');
 let Money = require('./money');
 let Mesh = require('./mesh');
+let Victory = require('./victory');
 
-let SIZE_GAP = 0.4;
-
-function generateIdealFace() {
-  let faceParts = _.keys(Mesh.faceWeights);
-  faceParts = _.filter(faceParts, (part) => part !== 'under_eyes');
-
-  let partNames = _.shuffle(faceParts);
-  let constrainedParts = partNames.slice(0, _.random(3, 5));
-
-  let normalShifts = {};
-  for (let partName of constrainedParts) {
-    normalShifts[partName] = _.random(0, 1) ? SIZE_GAP : -SIZE_GAP;
-  }
-
-  if (normalShifts.under_eye) {
-    normalShifts.under_eye = Math.max(normalShifts.under_eye, -0.1);
-  }
-
-  return { normalShifts };
-}
-
-let IDEAL_FACE = generateIdealFace();
+let { IDEAL_FACE } = Victory;
 let IDEAL_PART_NAMES = _.keys(IDEAL_FACE.normalShifts);
 
 function renderFaceConstraintText(constraint) {
@@ -76,12 +56,11 @@ function checkFaceConstraint(constraint) {
   let { partName } = constraint;
   if (success && partName) {
     let displayName = Mesh.partDisplayNameMap.get(partName);
-    let delta = IDEAL_FACE.normalShifts[partName]
-      - _.get(Data, 'transform.normalShifts.' + partName, 0);
-    if (delta < SIZE_GAP/2)  {
+    let check = Victory.checkFacePart(partName);
+    if (check == -1) {
       message = `${turn} <b>Your ${displayName} is too big for us.</b>`;
       success = false; 
-    } else if (delta > SIZE_GAP/2) {
+    } else if (check == 1) {
       message = `${turn} <b>Your ${displayName} is too small for us.</b>`;
       success = false;
     }
@@ -157,13 +136,6 @@ function generateSketchyJob() {
 
   let constraint = { maxDaysToHeal: _.random(0, 10) };
   return { pay, content, constraint };
-}
-
-function generateVictoryJob() {
-  let content = `
-    <p><strong>You've been nominated as Supreme Beauty's Woman of the Year!</strong></p> 
-  `;
-  return { pay: 10000, content, isVictory: true };
 }
 
 let generatorList = _.concat(
