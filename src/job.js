@@ -1,6 +1,7 @@
 
 let _ = require('lodash');
 let Data = require('./data');
+let Money = require('./money');
 let Mesh = require('./mesh');
 
 let SIZE_GAP = 0.4;
@@ -164,6 +165,7 @@ function perform(job) {
   let check = checkFaceConstraint(job.constraint);
   if (check.success) {
     Data.money += job.pay;
+    Money.renderChange(job.pay);
     return `You made <strong>${job.pay} dollars</strong>!`;
   } else {
     return check.message;

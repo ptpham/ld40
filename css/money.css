@@ -1,0 +1,19 @@
+
+#money {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 50px;
+  color: white;
+}
+
+#money .amount {
+  display: inline-block;
+  line-height: 20px;
+}
+
+#money img {
+  width: 20px;
+  height: 20px;
+}
+

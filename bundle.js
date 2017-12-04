@@ -10,6 +10,7 @@ Object.assign(window, {
   Render: require('./src/render'),
   Control: require('./src/control'),
   Health: require('./src/health'),
+  Money: require('./src/money'),
   Mesh: require('./src/mesh'),
   _: require('lodash'),
   Data: require('./src/data'),
@@ -53,6 +54,7 @@ function drawCards() {
 
 Cards.toggle(true);
 drawCards();
+Money.render();
 
 
 document.body.addEventListener('click', function onClick(e) {
@@ -79,8 +81,6 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
 
   var card = e.detail;
   if (Data.money + card.money > 0) {
-    Data.money += card.money;
-    document.getElementById('money').innerText = Data.money;
     let cardBack = Cards.cardTypes[card.type].perform(card.attributes);
     Cards.renderBack(card, cardBack);
     Cards.flip(card);
@@ -88,6 +88,7 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
 
   renderer.applyFaceParameters(Data.transform);
   renderer.requestFrame();
+  Money.render();
 });
 
 

@@ -5,6 +5,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="css/cards.css">
 <link rel="stylesheet" type="text/css" href="css/health.css">
+<link rel="stylesheet" type="text/css" href="css/money.css">
 <style>
 html, body {
   margin: 0px;
@@ -24,7 +25,10 @@ canvas { height: 100%; width: 100%; }
   <canvas id="canvas"></canvas>
   <div id="health"></div>
   <div id="cards"></div>
-  <div id="money"></div>
+  <div id="money">
+    <img src="assets/coin.svg" />
+    <div class="amount"></div>
+  </div>
 
   <template id="card-template">
     <div class="card">

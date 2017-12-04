@@ -1,5 +1,6 @@
 
 var _ = require('lodash');
+var Money = require('./money');
 var Data = require('./data');
 
 var { HEAL_PER_TURN } = Data;
@@ -486,6 +487,8 @@ function generate() {
 
 function perform(surgeon) {
   mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
+  Data.money -= surgeon.cost;
+  Money.renderChange(-surgeon.cost);
   return `${surgeon.name} performed the <b>${surgeon.surgery}</b>. <br /><br />
      ${surgeon.heal > 1 ? 'You may need a few days to heal...' : 'You feel pretty good!'}`;
 }
@@ -507,4 +510,5 @@ module.exports = {
   surgeries,
   mergeTransform,
   HEAL_PER_TURN };
+
 
