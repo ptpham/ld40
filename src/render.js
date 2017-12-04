@@ -7,6 +7,33 @@ let Eye = require('./eye');
 
 const NSHIFT = 'normalShifts';
 
+const skinColors = [
+  // Fair
+  {
+    diffuseColor: vec4.fromValues(1,0.8,0.6,1),
+    specularColor: vec4.fromValues(1,1,1,1),
+    ambientColor: vec4.fromValues(0.7,0.7,0.6,1),
+  },
+  // Medium
+  {
+    diffuseColor: vec4.fromValues(0.93, 0.70, 0.55, 1.00),
+    specularColor: vec4.fromValues(1,1,1,1),
+    ambientColor: vec4.fromValues(0.85, 0.64, 0.51, 1.00),
+  },
+  // Tanned
+  {
+    diffuseColor: vec4.fromValues(0.71, 0.54, 0.47, 1.00),
+    specularColor: vec4.fromValues(0.94, 0.71, 0.62, 1.00),
+    ambientColor: vec4.fromValues(0.49, 0.37, 0.32, 1.00),
+  },
+  // Dark
+  {
+    diffuseColor: vec4.fromValues(0.40, 0.21, 0.16, 1.00),
+    specularColor: vec4.fromValues(0.69, 0.38, 0.30, 1.00),
+    ambientColor: vec4.fromValues(0.20, 0.10, 0.07, 1.00),
+  },
+];
+
 function preFrame(gl, canvas, color = [1,1,1,1]) {
   canvas.width = canvas.offsetWidth;
   canvas.height = canvas.offsetHeight;
@@ -130,6 +157,8 @@ class Default extends Renderer {
 class Face extends Default {
   constructor(canvas) {
     super(canvas);
+    var skinColor = _.sample(skinColors);
+    Object.assign(this, skinColor);
     this.hairAmbientColor = vec4.fromValues(0.3,0.1,0.3,1);
     this.hairSpecularColor = vec4.fromValues(1,0.8,0.4,1);
     this.hairDiffuseColor = vec4.fromValues(0.4,0.3,0.2,1);
