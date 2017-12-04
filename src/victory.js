@@ -58,6 +58,7 @@ function perform(victory) {
   }
 
   if (success) {
+    cheerAudio.play();
     modalVictory.classList.add('show');
     document.body.dispatchEvent(new CustomEvent('endGame'));
     return '';   
