@@ -90,7 +90,8 @@ document.body.addEventListener('card:select', function onCardSelect(e) {
   // Pay Rent
   Data.money -= 50;
   Money.renderChange(-50, 'rent');
-
+ 
+  if (Data.money <= 0) modalDefeat.classList.add('show');
   Money.render();
 });
 
