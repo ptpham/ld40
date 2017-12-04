@@ -166,6 +166,12 @@ class Face extends Default {
     this.eyePair = new Eye.Pair(this,
       vec3.fromValues(-0.85, 0.9, 3.4),
       vec3.fromValues(0.85, 0.9, 3.4));
+
+    this.hairOptions = {
+      ambientColor: this.hairAmbientColor,
+      specularColor: this.hairSpecularColor,
+      diffuseColor: this.hairDiffuseColor
+    };
   }
 
   installFace(faceMesh, faceWeights) {
@@ -213,14 +219,8 @@ class Face extends Default {
     this.gl.viewport(0, 0, Math.floor(aspect*height), height);
     this.aspect = aspect;
 
-    let hairOptions = {
-      ambientColor: this.hairAmbientColor,
-      specularColor: this.hairSpecularColor,
-      diffuseColor: this.diffuseColor
-    };
-
     for (let geometry of this.geometry) {
-      let options = geometry != this.faceGeometry ? hairOptions : undefined;
+      let options = geometry != this.faceGeometry ? this.hairOptions : undefined;
       this.draw(geometry, options);
     }
 
