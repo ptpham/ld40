@@ -1,6 +1,7 @@
 
 let TurntableCamera = require('turntable-camera');
 let createShader = require('gl-shader');
+let createTexture = require('gl-texture2d');
 let { vec3, vec4, mat4 } = require('gl-matrix');
 let Setup = require('./setup');
 let Eye = require('./eye');
@@ -117,6 +118,62 @@ function createDefaultShader(gl) {
   return createShader(gl, vs, fs);
 }
 
+function createBackgroundGeometry(gl) {
+  let positions = [], texcoords = []; 
+  let radius = 20, count = 32;
+  for (let i = 0; i < count; i++) {
+    let t = i/(count-1);
+    let nextT = (i+1)/(count-1);
+
+    let theta = 2*Math.PI*(t - 0.25);
+    let nextTheta = 2*Math.PI*(nextT - 0.25);
+
+    let bottom = -20, top = 40;
+    positions.push([radius*Math.cos(theta), bottom, -radius*Math.sin(theta)]);
+    positions.push([radius*Math.cos(theta), top, -radius*Math.sin(theta)]);
+    positions.push([radius*Math.cos(nextTheta), top, -radius*Math.sin(nextTheta)]);
+
+    positions.push([radius*Math.cos(nextTheta), bottom, -radius*Math.sin(nextTheta)]);
+    positions.push([radius*Math.cos(theta), bottom, -radius*Math.sin(theta)]);
+    positions.push([radius*Math.cos(nextTheta), top, -radius*Math.sin(nextTheta)]);
+
+    texcoords.push([t, 0, 0]);
+    texcoords.push([t, 1, 0]);
+    texcoords.push([nextT, 1, 0]);
+
+    texcoords.push([nextT, 0, 0]);
+    texcoords.push([t, 0, 0]);
+    texcoords.push([nextT, 1, 0]);
+  }
+  return createGeometry(gl).attr('position', positions)
+    .attr('texcoord', texcoords);
+}
+
+function createBackgroundShader(gl) {
+  let vs = `
+    attribute vec3 position, texcoord;
+    uniform mat4 projection, view;
+    varying vec2 v_texcoord;
+
+    void main() {
+      gl_Position = projection*view*vec4(position, 1.0);
+      v_texcoord = texcoord.xy;
+    }
+  `;
+
+  let fs = `
+    precision mediump float;
+    uniform sampler2D texture;
+    varying vec2 v_texcoord;
+
+    void main() {
+      gl_FragColor = texture2D(texture, v_texcoord);
+    }
+  `;
+  
+  return createShader(gl, vs, fs);
+}
+
 function createDefaultCamera() {
   let result = new TurntableCamera();
   result.center[1] -= 1;
@@ -197,6 +254,10 @@ class Face extends Default {
       vec3.fromValues(-0.85, 0.9, 3.4),
       vec3.fromValues(0.85, 0.9, 3.4));
 
+    this.cityTexture = createTexture(this.gl, cityImage);
+    this.backgroundShader = createBackgroundShader(this.gl);
+    this.backgroundGeometry = createBackgroundGeometry(this.gl);
+
     this.hairOptions = {
       ambientColor: this.hairAmbientColor,
       specularColor: this.hairSpecularColor,
@@ -244,6 +305,12 @@ class Face extends Default {
     this.preFrame();
 
     let { canvas: { width, height } } = this;
+    this.gl.viewport(0, 0, width, height);
+    this.backgroundGeometry.bind(this.backgroundShader);
+    this.backgroundShader.uniforms.projection = this.projection;
+    this.backgroundShader.uniforms.view = this.view;
+    this.backgroundGeometry.draw();
+
     let aspect = Math.max((2/3)*width/height, 1.1);
     mat4.perspective(this.projection, Math.PI/4, aspect, 1, 100);
     this.gl.viewport(0, 0, Math.floor(aspect*height), height);
