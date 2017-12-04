@@ -3,6 +3,7 @@ let TurntableCamera = require('turntable-camera');
 let createShader = require('gl-shader');
 let { vec3, vec4, mat4 } = require('gl-matrix');
 let Setup = require('./setup');
+let Eye = require('./eye');
 
 const NSHIFT = 'normalShifts';
 
@@ -114,14 +115,14 @@ class Default extends Renderer {
     let { shader, projection, view } = this;
     let { uniforms } = shader;
     geometry.bind(shader);
-    uniforms.projection = projection;
+    uniforms.projection = overrides.projection || projection;
     uniforms.lightPosition0 = this.lightPosition0;
     uniforms.lightPosition1 = this.lightPosition1;
     uniforms.ambientColor = overrides.ambientColor || this.ambientColor;
     uniforms.specularColor = overrides.specularColor || this.specularColor;
     uniforms.diffuseColor = overrides.diffuseColor || this.diffuseColor;
     uniforms.injuryColor = this.injuryColor;
-    uniforms.view = view;
+    uniforms.view = overrides.view || view;
     geometry.draw();
   }
 }
@@ -132,6 +133,9 @@ class Face extends Default {
     this.hairAmbientColor = vec4.fromValues(0.3,0.1,0.3,1);
     this.hairSpecularColor = vec4.fromValues(1,0.8,0.4,1);
     this.hairDiffuseColor = vec4.fromValues(0.4,0.3,0.2,1);
+    this.eyePair = new Eye.Pair(this,
+      vec3.fromValues(-0.85, 0.9, 3.4),
+      vec3.fromValues(0.85, 0.9, 3.4));
   }
 
   installFace(faceMesh, faceWeights) {
@@ -190,6 +194,7 @@ class Face extends Default {
       this.draw(geometry, options);
     }
 
+    this.eyePair.draw();
     document.body.dispatchEvent(new CustomEvent('render'));
   }
 }
