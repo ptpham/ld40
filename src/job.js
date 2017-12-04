@@ -56,7 +56,7 @@ function checkFaceConstraint(constraint) {
   let { partName } = constraint;
   if (success && partName) {
     let displayName = Mesh.partDisplayNameMap.get(partName);
-    let check = Victory.checkFacePart(partName);
+    let check = Victory.checkFacePart(partName, constraint.checkRatio || 0.5);
     if (check == -1) {
       message = `${turn} <b>Your ${displayName} is too big for us.</b>`;
       success = false; 
@@ -109,7 +109,11 @@ function generateAdJob() {
   ]);
 
   let pay = _.random(100, 600);
-  let constraint = { maxDaysToHeal: _.random(0, 4), partName: _.sample(IDEAL_PART_NAMES) };
+  let constraint = {
+    maxDaysToHeal: _.random(0, 4),
+    partName: _.sample(IDEAL_PART_NAMES), 
+    checkRatio: 1
+  };
   return { pay, content, constraint };
 }
 

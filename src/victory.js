@@ -28,11 +28,11 @@ function generateIdealFace() {
 let IDEAL_FACE = generateIdealFace();
 let IDEAL_PART_NAMES = _.keys(IDEAL_FACE.normalShifts);
 
-function checkFacePart(partName) {
+function checkFacePart(partName, ratio = 0.5) {
   let delta = IDEAL_FACE.normalShifts[partName]
     - _.get(Data, 'transform.normalShifts.' + partName, 0);
-  if (delta < SIZE_GAP/2) return -1;
-  if (delta > SIZE_GAP/2) return 1;
+  if (delta < ratio*SIZE_GAP) return -1;
+  if (delta > ratio*SIZE_GAP) return 1;
   return 0;
 }
 
