@@ -39,8 +39,7 @@ function drawCards() {
   turnIndex++;
 
   var cardTypes = ['surgeon', 'job', 'event'];
-  var pickedTypes = ['surgeon', 'event'];
-  pickedTypes.push(_.sample(cardTypes));
+  var pickedTypes = ['job'].push(_.sample(cardTypes), _.sample(cardTypes));
 
   if (turnIndex % 10 == 0) pickedTypes.push('victory');
   else pickedTypes.push(_.sample(cardTypes));
