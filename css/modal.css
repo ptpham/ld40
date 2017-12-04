@@ -1,0 +1,54 @@
+
+.modal-container {
+  pointer-events: none;
+  z-index: 1000;
+  position: absolute;
+  align-items: center;
+  justify-content:center;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  left: 0px;
+  top: 0px;
+}
+
+.modal {
+  transition: opacity 0.2s, top 0.2s;
+  position: relative;
+  top: -200px;
+  border-radius: 4px;
+  border: 2px solid #8ad1d2;
+  background: rgba(0, 133, 150, 0.95);
+  padding: 75px 150px;
+  color: white;
+  opacity: 0;
+}
+
+.modal.show {
+  opacity: 1;
+  top: 0px;
+}
+
+.modal *::selection {
+  background: none;
+}
+
+.modal h1 {
+  font-size: 50px;
+  font-weight: lighter;
+  margin: 0px;
+}
+
+.modal .info {
+  width: 500px;
+  font-size: 20px;
+}
+
+.victory {
+  color: gold;
+}
+
+.defeat {
+  color: darkred;
+}
+
