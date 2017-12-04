@@ -2,7 +2,6 @@
 let parseOBJ = require('parse-wavefront-obj');
 let Multimap = require('multimap');
 let Setup = require('./setup');
-let Mesh = require('./mesh');
 let _ = require('lodash');
 
 let face = parseOBJ(require('../mesh/face.obj'));

@@ -1,16 +1,11 @@
 
 var _ = require('lodash');
 var Surgeon = require('./surgeon');
+var Mesh = require('./mesh');
 
 var HEAL_PER_TURN = Surgeon.HEAL_PER_TURN;
 
-var injuryAreas = [
-  'nose_bridge',
-  'upper_lip_center', 'lower_lip_center',
-  'upper_ear_left', 'upper_ear_right',
-  'under_eyes',
-  'upper_cheek_left', 'upper_cheek_right',
-  'brow_left', 'brow_right']
+var injuryAreas = Array.from(Mesh.partDisplayNameMap.keys());
 
 var events = [
   {
@@ -59,7 +54,11 @@ var accidents = {
     return transform;
   },
   'Someone punched you!': () => {
-    var injury = _.sample(['upper_cheek_left', 'upper_cheek_right']);
+    var injury = _.sample([
+      'upper_cheek_left', 'upper_cheek_right',
+      'lower_cheek_left', 'lower_cheek_right',
+      'jaw_left', 'jaw_right', 'nose_bridge',
+    ]);
     return {
       injuryValues: {
         [injury]: HEAL_PER_TURN,
