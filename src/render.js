@@ -62,7 +62,8 @@ function createDefaultShader(gl) {
 function createDefaultCamera() {
   let result = new TurntableCamera();
   result.center[1] -= 1;
-  result.distance = 10;
+  result.center[2] -= 2;
+  result.distance = 9;
   result.rotation = -Math.PI/6;
   result.downwards = -Math.PI/16;
   return result;
@@ -178,7 +179,7 @@ class Face extends Default {
     this.preFrame();
 
     let { canvas: { width, height } } = this;
-    let aspect = Math.max((2/3)*width/height, 1.2);
+    let aspect = Math.max((2/3)*width/height, 1.1);
     mat4.perspective(this.projection, Math.PI/4, aspect, 1, 100);
     this.gl.viewport(0, 0, Math.floor(aspect*height), height);
     this.aspect = aspect;
