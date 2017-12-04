@@ -54,7 +54,7 @@ function drawCards() {
 Cards.toggle(true);
 drawCards();
 Money.render();
-
+renderer.applyFaceParameters(Data.transform);
 
 document.body.addEventListener('click', function onClick(e) {
   if (e.target.matches('.card')) {
