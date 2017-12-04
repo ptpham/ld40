@@ -174,8 +174,9 @@ class Face extends Default {
     this.preFrame();
 
     let { canvas: { width, height } } = this;
-    mat4.perspective(this.projection, Math.PI/4, width/height*(2/3), 1, 100);
-    this.gl.viewport(0, 0, 2*width/3, height);
+    let aspect = Math.max((2/3)*width/height, 1.2);
+    mat4.perspective(this.projection, Math.PI/4, aspect, 1, 100);
+    this.gl.viewport(0, 0, Math.floor(aspect*height), height);
 
     let hairOptions = {
       ambientColor: this.hairAmbientColor,
