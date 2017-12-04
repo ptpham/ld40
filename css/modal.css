@@ -13,16 +13,17 @@
 }
 
 .modal {
+  box-shadow: 0px 0px 10px 0px black;
   transition: opacity 0.2s, top 0.2s;
   pointer-events: auto;
   position: relative;
   top: -200px;
   border-radius: 4px;
-  border: 2px solid #8ad1d2;
-  background: rgba(0, 133, 150, 0.95);
+  background: whitesmoke;
   padding: 75px 150px;
-  color: white;
+  color: dimgray;
   opacity: 0;
+  line-height: 200%;
 }
 
 .modal.show {
@@ -35,13 +36,14 @@
 }
 
 .modal h1 {
+  margin: 0px;
   font-size: 50px;
   font-weight: lighter;
-  margin: 0px;
+  margin-bottom: 20px;
 }
 
 .modal .info {
-  width: 500px;
+  width: 700px;
   font-size: 20px;
 }
 
@@ -53,6 +55,7 @@
   color: darkred;
 }
 
+.modal .btn,
 .modal a {
   display: block;
   margin-top: 20px;
@@ -60,7 +63,27 @@
   background: whitesmoke;
   border-radius: 3px;
   text-decoration: none;
-  box-shadow: 0px 0px 10px 0px #141b33;
+  box-shadow: 0px 0px 2px 0px #141b33;
+  transition: box-shadow 0.2s;
+  cursor: pointer;
+  text-align: center;
+  font-size: 25px;
   color: black;
+}
+
+.modal .btn:hover {
+  box-shadow: 0px 0px 4px 0px #141b33;
+}
+
+
+.modal .info .victory {
+  color: #716316;
+}
+
+.modal .tag {
+  display: inline-block;
+  padding: 0px 10px;
+  border-radius: 4px;
+  height: 30px;
 }
 

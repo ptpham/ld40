@@ -36,10 +36,28 @@ canvas { height: 100%; width: 100%; }
   </div>
 
   <div class="modal-container">
+    <div id="modalTitle" class="modal show">
+      <h1>Silicone <span class="victory">Dreams</span></h1>
+      <div class="info">Your dream is to be crowned the <b class="tag victory">Most
+      Beautiful Woman of the Year</b>. The only way is to get the right plastic
+      <b class="tag surgeon">surgery</b> to achieve the pinnacle of beauty. But
+      plastic surgery takes significant coinage -- not to mention you need to
+      pay rent. You'll need to do <b class="tag job">jobs</b> to make money on
+      your way to ultimate beauty.  If the life of a beauty queen is getting
+      tough, make sure you go to some <b class="tag event">events</b> with
+      friends. Every so often, Most Beautiful Woman of the Year award will be
+      given and you may be able to claim <b class="tag victory">victory</b>
+      </div>
+
+      <div class="btn" onclick="modalTitle.classList.remove('show')">Got It!</div>
+    </div>
+  </div>
+
+  <div class="modal-container">
     <div id="modalVictory" class="modal">
       <h1><span class="victory">Dream</span> Achieved</h1>
-      <div class="info">You've been crowned <b class="victory">Woman of the Year</b>! All those times going under the knife was totally worth it!</div>
-      <a href='javascript:window.location.href=window.location.href'
+      <div class="info">You've been crowned <b class="tag victory">Most Beautiful Woman of the Year</b>! All those times going under the knife was totally worth it!</div>
+      <a class="btn" href='javascript:window.location.href=window.location.href'
         ondragstart="event.preventDefault()">Try Again</a>
     </div>
   </div>
@@ -47,8 +65,8 @@ canvas { height: 100%; width: 100%; }
   <div class="modal-container">
     <div id="modalDefeat" class="modal">
       <h1>A Waking <span class="defeat">Nightmare</span></h1>
-      <div class="info">You are destitute and will forever carry the painful <b class="defeat">scars</b> of your mistakes.</div>
-      <a href='javascript:window.location.href=window.location.href'
+      <div class="info">You are destitute and will forever carry the painful <b class="tag surgeon">scars</b> of your mistakes.</div>
+      <a class="btn" href='javascript:window.location.href=window.location.href'
         ondragstart="event.preventDefault()">Try Again</a>
     </div>
   </div>

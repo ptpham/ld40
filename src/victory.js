@@ -38,7 +38,7 @@ function checkFacePart(partName) {
 
 function generate() {
   let content = `
-    <p>The <b class="victory">Most Beautiful Woman of the Year</b> competition
+    <p>The <strong class="victory">Most Beautiful Woman of the Year</strong> competition
     is here! Do you have the face to beat out the competition? (Entry fee
     required)</p>
   `;

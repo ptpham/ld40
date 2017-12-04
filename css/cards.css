@@ -125,18 +125,26 @@
   font-size: 1.2em;
   border-radius: 5px 5px 0 0;
 }
+
+b.surgeon,
 .card.surgeon .type {
   background-color: #f0b5b5;
   color: #a85555;
 }
+
+b.job,
 .card.job .type {
   background-color: #a9d1f2;
   color: #4e6f91;
 }
+
+b.event,
 .card.event .type {
   background-color: #C9E0CD;
   color: #60806d;
 }
+
+b.victory,
 .card.victory .type {
   background-color: gold;
   color: #716316;
