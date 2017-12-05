@@ -2,6 +2,7 @@
 var _ = require('lodash');
 var Surgeon = require('./surgeon');
 var Mesh = require('./mesh');
+var Audio = require('./audio');
 
 var HEAL_PER_TURN = Surgeon.HEAL_PER_TURN;
 
@@ -110,6 +111,7 @@ function perform(event) {
   var response = `You ${event.text}.`;
   var accident = event.risk && Math.random() < event.chance;
   if (accident) {
+    Audio.playOuchAudio();
     var transform = accidents[event.risk]();
     Surgeon.mergeTransform(transform);
     return `${response} <p><strong>${event.risk}</strong> Better rest for a bit.</p>`;

@@ -3,6 +3,7 @@ var _ = require('lodash');
 var Money = require('./money');
 var Data = require('./data');
 var Victory = require('./victory');
+var Audio = require('./audio');
 
 var { HEAL_PER_TURN } = Data;
 
@@ -464,10 +465,7 @@ function generate() {
 function perform(surgeon) {
   // Shouldn't encounter this state, but just in case.
   if (Data.money < surgeon.cost) return 'You could not afford the procedure.';
-
-  let ouchAudio = window[`ouch${_.random(0, 3)}Audio`];
-  if (surgeon.heal > 3) ouchAudio = ouch4Audio;
-  ouchAudio.play();
+  Audio.playOuchAudio(surgeon.heal > 3);
 
   mergeTransform(surgeries[surgeon.surgery](surgeon.skill, surgeon.heal));
   Data.money -= surgeon.cost;
