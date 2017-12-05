@@ -106,6 +106,9 @@ window.addEventListener('load', () => {
   document.body.addEventListener('endGame', () => {
     setTimeout(() => Cards.reset(), 500);
   });
+
+  startButton.innerHTML = 'Start';
+  startButton.addEventListener('click', () => modalTitle.classList.remove('show'), false);
 });
 
 
