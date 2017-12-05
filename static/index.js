@@ -40,13 +40,14 @@ function drawCards() {
   turnIndex++;
 
   var cardTypes = ['surgeon', 'job', 'event'];
-  var pickedTypes = ['surgeon', 'event'];
+  var pickedTypes = turnIndex === 1 ? ['surgeon', 'job'] : ['surgeon', 'event'];
   pickedTypes.push(_.sample(cardTypes));
 
   if (turnIndex % 10 == 0) pickedTypes.push('victory');
   else pickedTypes.push(_.sample(cardTypes));
 
   pickedTypes = _.shuffle(pickedTypes);
+
   var cards = pickedTypes.map(type => Cards.generate(type));
   Data.cards = cards;
 
@@ -35341,10 +35342,6 @@ function generateIdealFace() {
   let normalShifts = {};
   for (let partName of constrainedParts) {
     normalShifts[partName] = _.random(0, 1) ? SIZE_GAP : -SIZE_GAP;
-  }
-
-  if (normalShifts.under_eye) {
-    normalShifts.under_eye = Math.max(normalShifts.under_eye, -0.1);
   }
 
   return { normalShifts };
