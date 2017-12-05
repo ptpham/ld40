@@ -3,7 +3,7 @@ var _ = require('lodash');
 var HEAL_PER_TURN = 0.2;
 
 var data = {
-  money: 10000,
+  money: 5000,
   cards: [],
   transform: {},
 };

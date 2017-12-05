@@ -73,14 +73,14 @@ class Manager {
     document.body.addEventListener('keydown', e => {
       if (e.key == ' ') {
         this.show = true;
-        this.layout();
+        this.renderer.requestFrame();
       }
     });
 
     document.body.addEventListener('keyup', e => {
       if (e.key == ' ') {
         this.show = false;
-        this.layout();
+        this.renderer.requestFrame();
       }
     });
 
@@ -118,12 +118,18 @@ class Manager {
     pending = _.sortBy(pending, x => x.z);
 
     let minOpacity = 1/pending.length;
+    let opacityRange = maxZ - minZ;
     for (let i = 0; i < pending.length; i++) {
       let entry = pending[i];
       let { name } = entry;
 
       entry.zIndex = i;
-      entry.opacity = (1 - minOpacity)*(entry.z - minZ) / (maxZ - minZ) + minOpacity;
+
+      if (opacityRange > 0) {
+        entry.opacity = (1 - minOpacity)*(entry.z - minZ) / opacityRange + minOpacity;
+      } else {
+        entry.opacity = 1;
+      }
       if (!this.show) entry.opacity = 0;
 
       let existing = healthContainer.querySelector(`.health-node[data-part="${name}"]`);

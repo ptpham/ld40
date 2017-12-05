@@ -112,7 +112,7 @@ function generateAdJob() {
   let constraint = {
     maxDaysToHeal: _.random(0, 4),
     partName: _.sample(IDEAL_PART_NAMES), 
-    checkRatio: 1
+    checkRatio: 0.75
   };
   return { pay, content, constraint };
 }
