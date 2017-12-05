@@ -11,7 +11,7 @@ function generateIdealFace() {
   faceParts = _.filter(faceParts, (part) => part !== 'under_eyes');
 
   let partNames = _.shuffle(faceParts);
-  let constrainedParts = partNames.slice(0, _.random(3, 5));
+  let constrainedParts = partNames.slice(0, 3);
 
   let normalShifts = {};
   for (let partName of constrainedParts) {
@@ -27,11 +27,13 @@ function generateIdealFace() {
 
 let IDEAL_FACE = generateIdealFace();
 let IDEAL_PART_NAMES = _.keys(IDEAL_FACE.normalShifts);
+let PART_CANDIDATES = _.union(IDEAL_PART_NAMES,
+  _.chain(Mesh.ALL_FACE_PARTS).subtract(IDEAL_PART_NAMES).shuffle().sampleSize(3).value());
 
 function checkFacePart(partName, ratio = 0.5) {
   let delta = IDEAL_FACE.normalShifts[partName]
     - _.get(Data, 'transform.normalShifts.' + partName, 0);
-  if (delta < ratio*SIZE_GAP) return -1;
+  if (delta < -ratio*SIZE_GAP) return -1;
   if (delta > ratio*SIZE_GAP) return 1;
   return 0;
 }
@@ -72,5 +74,6 @@ function perform(victory) {
     your ${displayName}...</p>`;
 }
 
-module.exports = { generate, perform, checkFacePart, IDEAL_FACE, IDEAL_PART_NAMES };
+module.exports = { generate, perform, checkFacePart,
+  IDEAL_FACE, IDEAL_PART_NAMES, PART_CANDIDATES };
 

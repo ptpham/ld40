@@ -2,15 +2,21 @@
 var _ = require('lodash');
 var Money = require('./money');
 var Data = require('./data');
+var Victory = require('./victory');
 
 var { HEAL_PER_TURN } = Data;
+
+function surgeryHasCandidatePart(surgery) {
+  var example = surgery(0, 0);
+  return _.intersection(_.keys(example.normalShifts), Victory.PART_CANDIDATES).length > 0;
+}
 
 var surgeries = {
   'upper lip injection': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        upper_lip_center: 0.1 + _.random(0, 0.05 * jitter, true),
+        upper_lip_center: 0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         upper_lip_center: heal * HEAL_PER_TURN, 
@@ -22,7 +28,7 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        upper_lip_center: -0.1 + _.random(0, 0.05 * jitter, true),
+        upper_lip_center: -0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         upper_lip_center: heal * HEAL_PER_TURN, 
@@ -34,7 +40,7 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        lower_lip_center: 0.1 + _.random(0, 0.05 * jitter, true),
+        lower_lip_center: 0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         lower_lip_center: heal * HEAL_PER_TURN, 
@@ -46,7 +52,7 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        lower_lip_center: -0.1 + _.random(0, 0.05 * jitter, true),
+        lower_lip_center: -0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         lower_lip_center: heal * HEAL_PER_TURN, 
@@ -58,8 +64,8 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        upper_cheek_left: 0.1 + _.random(0, 0.05 * jitter, true),
-        upper_cheek_right: 0.1 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_left: 0.2 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
         under_eyes: _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
@@ -73,10 +79,10 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        upper_cheek_left: 0.1 + _.random(0, 0.05 * jitter, true),
-        upper_cheek_right: 0.1 + _.random(0, 0.05 * jitter, true),
-        lower_cheek_left: 0.1 + _.random(0, 0.05 * jitter, true),
-        lower_cheek_right: 0.1 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_left: 0.2 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_left: 0.2 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
         under_eyes: _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
@@ -93,7 +99,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_bridge: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_bridge: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_bridge: heal * HEAL_PER_TURN,
@@ -106,7 +112,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_bridge: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_bridge: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_bridge: heal * HEAL_PER_TURN,
@@ -119,7 +125,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_tip: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_tip: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_tip: heal * HEAL_PER_TURN,
@@ -133,7 +139,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_tip: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_tip: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_tip: heal * HEAL_PER_TURN,
@@ -147,7 +153,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_nostrils: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_nostrils: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_nostrils: heal * HEAL_PER_TURN,
@@ -160,7 +166,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        nose_nostrils: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        nose_nostrils: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         nose_nostrils: heal * HEAL_PER_TURN,
@@ -172,8 +178,8 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        brow_left: 0.1 + _.random(0, 0.05 * jitter, true),
-        brow_right: 0.1 + _.random(0, 0.05 * jitter, true),
+        brow_left: 0.2 + _.random(0, 0.05 * jitter, true),
+        brow_right: 0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         brow_left: heal * HEAL_PER_TURN,
@@ -185,8 +191,8 @@ var surgeries = {
     var jitter = _.random(0, 2 - skill);
     return {
       normalShifts: {
-        brow_left: -0.1 + _.random(0, 0.05 * jitter, true),
-        brow_right: -0.1 + _.random(0, 0.05 * jitter, true),
+        brow_left: -0.2 + _.random(0, 0.05 * jitter, true),
+        brow_right: -0.2 + _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
         brow_left: heal * HEAL_PER_TURN,
@@ -199,7 +205,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        eye_lids: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        eye_lids: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         eye_lids: heal * HEAL_PER_TURN,
@@ -212,7 +218,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        eye_lids: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        eye_lids: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         eye_lids: heal * HEAL_PER_TURN,
@@ -225,8 +231,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        jaw_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        jaw_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_right: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_left: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         jaw_right: heal * HEAL_PER_TURN,
@@ -239,8 +245,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        jaw_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        jaw_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_right: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        jaw_left: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         jaw_right: heal * HEAL_PER_TURN,
@@ -253,7 +259,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        chin_center: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        chin_center: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         chin_center: heal * HEAL_PER_TURN,
@@ -267,7 +273,7 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        chin_center: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        chin_center: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         chin_center: heal * HEAL_PER_TURN,
@@ -281,8 +287,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        upper_ear_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        upper_ear_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_left: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_right: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         upper_ear_left: heal * HEAL_PER_TURN,
@@ -297,8 +303,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        upper_ear_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        upper_ear_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_left: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        upper_ear_right: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         upper_ear_left: heal * HEAL_PER_TURN,
@@ -313,8 +319,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        ear_lobe_left: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        ear_lobe_right: 0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_left: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_right: 0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         ear_lobe_left: heal * HEAL_PER_TURN,
@@ -329,8 +335,8 @@ var surgeries = {
     var jitterSign = jitter && (Math.random() > 0.5 ? 1 : -1);
     return {
       normalShifts: {
-        ear_lobe_left: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
-        ear_lobe_right: -0.1 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_left: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
+        ear_lobe_right: -0.2 + jitterSign * (_.random(0, 0.05 * jitter, true)),
       },
       injuryValues: {
         ear_lobe_left: heal * HEAL_PER_TURN,
@@ -420,7 +426,7 @@ var lists = {
     ],
   },
 
-  surgery: Object.keys(surgeries),
+  surgery: Object.keys(surgeries).filter(x => surgeryHasCandidatePart(surgeries[x])),
   healRange: [0, 3],
   costRange: [100, 1000],
 };

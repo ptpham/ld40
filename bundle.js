@@ -39,7 +39,8 @@ function drawCards() {
   turnIndex++;
 
   var cardTypes = ['surgeon', 'job', 'event'];
-  var pickedTypes = ['job'].push(_.sample(cardTypes), _.sample(cardTypes));
+  var pickedTypes = ['surgeon', 'event'];
+  pickedTypes.push(_.sample(cardTypes));
 
   if (turnIndex % 10 == 0) pickedTypes.push('victory');
   else pickedTypes.push(_.sample(cardTypes));
@@ -73,15 +74,16 @@ document.body.addEventListener('click', function onClick(e) {
 
 
 document.body.addEventListener('card:select', function onCardSelect(e) {
+  let card = e.detail;
+
   // Do turn healing first
-  if (Data.transform.injuryValues) {
+  if (card.type == 'event' && Data.transform.injuryValues) {
     for (let key in Data.transform.injuryValues) {
       let current = Data.transform.injuryValues[key];
       Data.transform.injuryValues[key] = Math.max(current - Surgeon.HEAL_PER_TURN, 0);
     }
   }
 
-  var card = e.detail;
   let cardBack = Cards.cardTypes[card.type].perform(card.attributes);
   Cards.renderBack(card, cardBack);
   Cards.flip(card);

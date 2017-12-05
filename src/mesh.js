@@ -12,7 +12,7 @@ let displayNamePairs = [
   ['nose_bridge', 'nose bridge'],
   ['nose_nostrils', 'nostrils'],
   ['nose_tip', 'nose tip'],
-  ['upper_lip_center', ,'upper lip'],
+  ['upper_lip_center', 'upper lip'],
   ['lower_lip_center', 'lower lip'],
   ['upper_ear_left', 'upper left ear'],
   ['ear_lobe_left', 'left ear lobe'],
@@ -28,14 +28,15 @@ let displayNamePairs = [
   ['brow_right', 'right brow'],
   ['chin_center', 'chin'],
   ['jaw_left', 'left jaw'],
-  ['jaw_right', 'right jaw'],
+  ['jaw_right', 'right jaw']
 ];
 
 let partDisplayNameMap = new Map(displayNamePairs);
+let ALL_FACE_PARTS = Array.from(partDisplayNameMap.keys());
 
 module.exports = {
   cube: parseOBJ(require('../mesh/cube.obj')),
   ponytail: parseOBJ(require('../mesh/ponytail.obj')),
-  face, faceWeights, partDisplayNameMap
+  face, faceWeights, partDisplayNameMap, ALL_FACE_PARTS
 };
 
