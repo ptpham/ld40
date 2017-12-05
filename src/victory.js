@@ -18,10 +18,6 @@ function generateIdealFace() {
     normalShifts[partName] = _.random(0, 1) ? SIZE_GAP : -SIZE_GAP;
   }
 
-  if (normalShifts.under_eye) {
-    normalShifts.under_eye = Math.max(normalShifts.under_eye, -0.1);
-  }
-
   return { normalShifts };
 }
 
