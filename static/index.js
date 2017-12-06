@@ -34911,6 +34911,23 @@ var surgeries = {
       },
     };
   },
+  'lower cheek fat graft': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        lower_cheek_left: 0.2 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
+        jaw_right: _.random(0, 0.05 * jitter, true),
+        jaw_left: _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        lower_cheek_left: heal * HEAL_PER_TURN,
+        lower_cheek_right: heal * HEAL_PER_TURN,
+        jaw_right: jitter * HEAL_PER_TURN,
+        jaw_left: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
   'cheek injection': (skill, heal) => {
     var jitter = _.random(0, 2 - skill);
     return {
@@ -34919,6 +34936,25 @@ var surgeries = {
         upper_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
         lower_cheek_left: 0.2 + _.random(0, 0.05 * jitter, true),
         lower_cheek_right: 0.2 + _.random(0, 0.05 * jitter, true),
+        under_eyes: _.random(0, 0.05 * jitter, true),
+      },
+      injuryValues: {
+        upper_cheek_left: heal * HEAL_PER_TURN,
+        upper_cheek_right: heal * HEAL_PER_TURN,
+        lower_cheek_left: heal * HEAL_PER_TURN,
+        lower_cheek_right: heal * HEAL_PER_TURN,
+        under_eyes: jitter * HEAL_PER_TURN,
+      },
+    };
+  },
+  'cheek reduction': (skill, heal) => {
+    var jitter = _.random(0, 2 - skill);
+    return {
+      normalShifts: {
+        upper_cheek_left: -0.2 + _.random(0, 0.05 * jitter, true),
+        upper_cheek_right: -0.2 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_left: -0.2 + _.random(0, 0.05 * jitter, true),
+        lower_cheek_right: -0.2 + _.random(0, 0.05 * jitter, true),
         under_eyes: _.random(0, 0.05 * jitter, true),
       },
       injuryValues: {
